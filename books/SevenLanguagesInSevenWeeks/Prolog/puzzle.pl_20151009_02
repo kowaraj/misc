@@ -1,0 +1,86 @@
+%% %%%
+%% 1. There are five houses.
+%% 2. The Englishman lives in the red house.
+%% 3. The Spaniard owns the dog.
+%% 4. Coffee is drunk in the green house.
+%% 5. The Ukrainian drinks tea.
+%% 6. The green house is immediately to the right of the ivory house.
+%% 7. The Old Gold smoker owns snails.
+%% 8. Kools are smoked in the yellow house.
+%% 9. Milk is drunk in the middle house.
+%% 10. The Norwegian lives in the first house.
+%% 11. The man who smokes Chesterfields lives in the house next to the man with the fox.
+%% 12. Kools are smoked in the house next to the house where the horse is kept.
+%% 13. The Lucky Strike smoker drinks orange juice.
+%% 14. The Japanese smokes Parliaments.
+%% 15. The Norwegian lives next to the blue house.
+%% 16. Now, who drinks water? Who owns the zebra?
+%%
+%% In the interest of clarity, it must be added that each of the five houses
+%% is painted a different color, and their inhabitants are of different
+%% national extractions, own different pets, drink different beverages
+%% and smoke different brands of American cigarets.
+%% One other thing: in statement 6, right means your right.
+%%
+%% -- Life International, December 17, 1962.
+%%%
+
+a(dog). a(zebra). a(horse). %a(snails).
+d(tea). d(coffee). d(water). %d(milk). 
+p(eng). p(esp). p(ukr). %p(nor). p(jap).
+h(red). h(green). h(yellow). %h(ivory). h(blue).
+
+
+fact2(eng, red).
+fact3(esp, dog).
+fact4(X, Y) :- X = coffee, Y = green.
+fact5(ukr, tea).
+
+diff_a(X, Y, Z) :- a(X) \= a(Y), a(X) \= a(Z), a(Y) \= a(Z).
+diff_a(X, Y) :- a(X) \= a(Y).
+
+diff_p(X, Y) :- p(X) \= p(Y).
+diff_p(X, Y, Z) :- p(X) \= p(Y), p(X) \= p(Z), p(Y) \= p(Z).
+diff_p(X, Y, Z, V) :- p(X) \= p(Y), p(X) \= p(Z), p(X) \= p(V),
+		      p(Y) \= p(Z), p(Y) \= p(V),
+		      p(V) \= p(Z).
+
+diff_h(X, Y) :- h(X) \= h(Y).
+diff_h(X, Y, Z) :- h(X) \= h(Y), h(X) \= h(Z), h(Y) \= h(Z).
+diff_d(X, Y, Z) :- d(X) \= d(Y), d(X) \= d(Z), d(Y) \= d(Z).
+
+
+
+%people(EP, ED, EA, EH, SP, SD, SA, SH, UP, UD, UA, UH) :- 
+people(EA, SA, UA) :- 
+    h(RedH), h(YellowH), h(GreenH), h(SH), h(UH), h(EH), %h(CoffeeDrunkHouse),
+    p(EP), p(SP), p(UP),
+    a(DogA), a(ZebraA), a(EA), a(UA), a(SA),
+    d(CoffeeD), d(TeaD), d(WaterD), d(ED), d(SD), d(UD),
+
+    fact2(EP, EH),
+    diff_h(EH, GreenH),
+    diff_h(EH, YellowH),
+    diff_h(SH, RedH),
+    diff_h(UH, RedH),
+    
+    fact3(SP, SA),
+    diff_a(EA, DogA),
+    diff_a(UA, DogA),
+    diff_a(SA, ZebraA),
+    
+    %% fact4(CoffeeDrunkHouse, GreenH),
+
+    %% fact5(UP, UD),
+    %% diff_d(UD, WaterD),
+    %% diff_d(UD, CoffeeD),
+    %% diff_d(ED, TeaD),
+    %% diff_d(SD, TeaD),
+
+    
+%    diff_d(WaterD, TeaD, CoffeeD),
+    diff_a(DogA, ZebraA),
+    diff_a(EA, SA, UA),
+    diff_h(GreenH, RedH, YellowH),
+    diff_h(EH, SH, UH),
+    diff_p(EP, SP, UP).
