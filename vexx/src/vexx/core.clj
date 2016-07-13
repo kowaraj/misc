@@ -3,7 +3,8 @@
   (:require [seesaw.core :as ss]
             [seesaw.dev  :as ssd]
             [seesaw.mig  :as ssm]
-            [seesaw.bind :as b]))
+            [seesaw.bind :as b]
+            [vexx.model.model :as model ]))
 
 (ss/native!)
 
@@ -12,7 +13,7 @@
 
 
 
-(def list-data (ref [1 2 3]))
+;; (def list-data (ref [1 2 3]))
 ;; (let [new-el "new text"
 ;;       old-list-data @list-data
 ;;       new-list-data (conj old-list-data new-el)]
@@ -20,11 +21,11 @@
 ;;   )
 
 
-(defn list-model 
-  [items]
-  (let [model (javax.swing.DefaultListModel.)]
-    (doseq [item items] (.addElement model item))
-    model))
+;; (defn list-model 
+;;   [items]
+;;   (let [model (javax.swing.DefaultListModel.)]
+;;     (doseq [item items] (.addElement model item))
+;;     model))
 
 
 
@@ -35,10 +36,12 @@
         xt (ss/select p [:#xtext])
         text-in (ss/select p [:#text-in])
         text-log (ss/select p [:#text-log])
+        f (model/make-fn-text-in-key-typed text-log text-in)
         ]
 
-    (add-watch list-data nil
-               (fn [_ _ _ items] (.setModel xl (list-model items))))
+    ;; (add-watch list-data nil
+    ;;            (fn [_ _ _ items] (.setModel xl (list-model items))))
+    (model/add-watch-list xl)
 
 
     (ss/listen p
@@ -52,22 +55,10 @@
                             (ss/config! xt :text (str "new selected value is: " (ss/selection event)))
                             ))
     (ss/listen text-in
-               :key-typed (fn [e]
-                            (let [ch (.getKeyChar e)]
-                              (if (= ch \newline)
-                                (let [new-el (ss/text text-in)
-                                      old-list-data @list-data
-                                      new-list-data (conj old-list-data new-el)]
-                                  (ss/config! text-log :text (str new-list-data))
-                                  (dosync (ref-set list-data new-list-data)))
-                                (ss/config! text-log :text (str "symbol you typed: " (.getKeyChar e)))
-                                ))))
+               :key-typed f)
     ;;;(.requestFocusInWindow p)
     root))
 ;(-main)
-(def v [1 2 3])
-(conj v 5)
-(str v)
 
 (defn make-content []
   (let [lp (ssm/mig-panel
