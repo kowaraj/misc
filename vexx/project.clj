@@ -7,6 +7,7 @@
 ;                 [org.clojure/tools.nrepl "0.2.11"]
                  [seesaw "1.4.2" :exclusions [org.clojure/clojure]]
                  [cider/cider-nrepl "0.10.0-SNAPSHOT"]
+                 [org.clojure/data.json "0.2.6"]
                  ]
   :repl-options {:nrepl-middleware
                  []

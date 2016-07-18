@@ -4,10 +4,11 @@
             [seesaw.mig  :as ssm]
             [seesaw.bind :as b]
             [vexx.model.model :as vm]
+            [vexx.controller.db-json :as cj]
             ))
 
 
-(defn m-list-model
+(defn- make-list-model
   [items]
   (let [model (javax.swing.DefaultListModel.)]
     (doseq [item items] (.addElement model item))
@@ -16,7 +17,7 @@
 
 (defn add-watch-list [lb]
   (add-watch vm/list-data nil
-             (fn [_ _ _ items] (.setModel lb (m-list-model items)))))
+             (fn [_ _ _ items] (.setModel lb (make-list-model items)))))
 
 
 (defn get-listbox-data []
@@ -38,4 +39,5 @@
         ))))
 
 
-
+;; (cj/save-to-file {:a 1 :b 2})
+;; ((cj/load-from-file) "a")
