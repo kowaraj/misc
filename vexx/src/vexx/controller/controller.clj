@@ -33,31 +33,32 @@
       (if (= ch \newline)
         (let [new-el (ss/text text-in)]
           (vm/add-list-item new-el)
-          (ss/config! text-log :text (vm/get-list-data)))
+          (ss/config! text-log :text (vm/get-list-str)))
         (ss/config! text-log :text (str "symbol you typed: " (.getKeyChar e)))
         ))))
 
-;(defn make-xlist-listener-key-released [text-log]
-(defn xlist-listener-key-released []
-  (defn f [e]
-    (let [ch (.getKeyChar e)]
-      (println "key-released: " ch)
-      (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e))
-        (let []
-          ;;;(ss/config! text-log :text "delete recognized")
-          (vm/set-log-data "del detected!")
-          
-          )
-        ;;(ss/config! text-log :text (str ch))
-        (vm/set-log-data (str ch))
-        ))))
+(defn xlist-listener-key-released [e]
+  (let [ch (.getKeyChar e)]
+    ;(println "key-released: ! " ch)
+    (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e))
+      (let [jl (.getSource e)
+            sel-index (.getSelectedIndex jl)
+            new-size (dec (.getSize (.getModel jl)))
+            new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
+        
+        (vm/delete-list-sel-item)
+        (println "new size = " new-size)
+        (println "new sel index = " new-sel-index)
+        
+        (.setSelectedIndex jl new-sel-index))
+      )))
 
-(defn button-delete-action [name]
-  (vm/delete-list-item name))
-;java.awt.event.KeyEvent/VK_BACK_SPACE
+(defn xlist-listener-selection [e]
+  (let [sel (ss/selection e)]
+    ;(println "You selected: " sel)
+    (vm/set-xlist-sel sel)
+    (vm/set-log-data (str "xlist selected value: " sel "\n" (.getSelectedIndex (.getSource e)) "\n" e))))
 
-;; (cj/save-to-file {:a 1 :b 2})
-;; ((cj/load-from-file) "a")
 
 (defn get-listbox-data []
   (vm/get-list-data))

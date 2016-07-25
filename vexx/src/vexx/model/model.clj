@@ -62,9 +62,13 @@
 
 (def list-data (ref [])) ;list of strings for listbox (xlist)
 
+(defn get-list-data []
+  (get-items-name))
+
 (defn get-list-str []
   ;;(clojure.string/join "-\n" @list-data))
-  (clojure.string/join "-\n" (get-items-name)))
+  (clojure.string/join ",, " (get-items-name)))
+
 
 (defn add-list-item [name]
   (let [new-item (make-item :id 48 :name name :data "useful data str for new item")
@@ -72,10 +76,18 @@
     (add-item new-item) ;;change db
     (dosync (ref-set list-data (get-items-name)))))
 
-(defn delete-list-item [name]
-  (del-item name) ;;change db
+;;;---------------------------- list selection
+
+(def xlist-sel (ref nil)) ;selected element of the listbox (xlist)
+(defn set-xlist-sel [name] (dosync (ref-set xlist-sel name)))
+(defn get-xlist-sel [] @xlist-sel)
+
+
+(defn delete-list-sel-item []
+  (let [name (get-xlist-sel)]
+    (del-item name) ;;change db
 ;;;  (dosync (alter list-data #(remove (set [name]) %) ))) ;;change list-data
-  (dosync (ref-set list-data (get-items-name))))
+    (dosync (ref-set list-data (get-items-name)))))
                 
 (def text-in-data (ref "default text-in string"))
 

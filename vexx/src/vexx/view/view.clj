@@ -8,35 +8,38 @@
 ;(ssd/show-options (ss/combobox :id :stroke :class :style :model [1 2 3 5 8 13 21]))
 (ss/native!)
 
-(defn add-behavior [root]
+(defn add-behavior
+  [root]
   (let [p (ss/select root [:#panel])
+        text-log (ss/select root [:#text-log])
         xl (ss/select p [:#xlist])
         xt (ss/select p [:#xtext])
         text-in (ss/select p [:#text-in])
-        text-log (ss/select p [:#text-log])
-        button-delete (ss/select p [:#buttonDelete])
+        ;button-delete (ss/select p [:#buttonDelete])
         text-in-listener (vc/make-fn-text-in-key-typed text-log text-in)
         ;;;xlist-listener-key-released (vc/make-xlist-listener-key-released text-log)
         ]
     (vc/add-watch-list xl)
     (vc/add-watch-textlog text-log)
     (ss/listen xl
-               :selection (fn [event]
-                            (println "You selected: "(ss/selection event))
-                            (ss/config! xt :text (str "new selected value is: "
-                                                      (ss/selection event))))
+               :selection vc/xlist-listener-selection
+               ;; (fn [event]
+               ;;   (println "You selected: "(ss/selection event))
+               ;;   (ss/config! xt :text (str "new selected value is: "
+               ;;                             (ss/selection event))))
                :key-released vc/xlist-listener-key-released;xlist-listener-key-released
                )
     (ss/listen text-in
                :key-typed text-in-listener)
-    (ss/listen button-delete
-               :action (fn [event]
-                         (vc/button-delete-action)))
+    ;; (ss/listen button-delete
+    ;;            :action (fn [event]
+    ;;                      (vc/button-delete-action)))
 
     root))
 ;(add-behavior x)
 
-(defn make-content []
+(defn make-content
+  []
   (let [lp (ssm/mig-panel
             :id :panel
             :items[
@@ -52,19 +55,23 @@
                    [(ss/text :id :xtext
                              :text "Hi Mom!!" :editable? true :columns 30
                              :multi-line? :true :rows 2) "wrap"]
-                   [(ss/text :id :text-log
-                             :text "Logging.." :editable? false :columns 30
-                             :multi-line? true :rows 5)]
-                   ])
+                   ]
+            )
         rp (ssm/mig-panel
             :id :panel
             :items[
-                   [(ss/text :id :text-log
+                   [(ss/text :id :text-data
                              :text "Your text here..." :editable? true :columns 50
                              :multi-line? true :rows 30)]
                    ])]
-    (ss/left-right-split lp rp)))
-    
+
+    (ss/top-bottom-split 
+     (ss/left-right-split lp rp)
+     (ss/text :id :text-log
+                        :text "Logging.." :editable? true :columns 10
+                        :multi-line? true :wrap-lines? true :rows 10)
+     )))
+
   
 (defn make-frame []
   (ss/frame
