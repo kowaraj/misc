@@ -87,3 +87,86 @@ data
 (ns-unmap *ns* 'my-fun)         ;;un-define
 
 
+
+
+" add a tab "
+
+(defn add-a-tab
+  [root]
+  (let [t (ss/select root [:#tpane])]
+    (println "tabs = " (ss/value t))
+    (ss/config! t :tabs [
+          ;; {:title "tab5" :content "content of tab1"}
+          ;; {:title "tab6" :content "content of tab2"}
+          ])
+    (ss/config! t :visible? true)
+    
+    ))
+(add-a-tab x)
+
+
+" bug or feature? "
+
+
+(defn make-2 [& {:keys [name type content]
+                 :or {type :text content "default text"}
+                 }
+              ]
+    (prn "name = " name)
+    (prn "name-type = " (type name))
+)
+;(make-2 :name "new item name!" :content "new item content")
+
+
+
+" pop-up question"
+
+(let [p (ss/border-panel :size [100 :by 100])
+      f (ss/frame :title "Pop up ask" :size [200 :by 300] :content p)]
+  (ss/pack! f)
+  (ss/show! f)
+  (javax.swing.JOptionPane/showInputDialog p "Enter printer name:"))
+(ssd/show-options (ss/border-panel))
+
+(javax.swing.JOptionPane/showInputDialog
+                    (ss/border-panel :size [100 :by 100])
+                    "New tab name:"
+                    "Input"
+                    javax.swing.JOptionPane/QUESTION_MESSAGE
+                    nil
+                    (to-array [1 2 3 4])
+                    "Titan"
+                    )
+
+(let [t (ss/text :text "t1")
+      ]
+  (javax.swing.JOptionPane/showInputDialog
+                    (ss/border-panel :size [100 :by 100])
+                    t
+                    "Input"
+                    javax.swing.JOptionPane/QUESTION_MESSAGE
+                    nil
+                    (to-array [1 2 3 4])
+                    "Titan"
+                    )
+  (println "tet = " (ss/text t)))
+
+
+
+(let [op (new javax.swing.JOptionPane)
+      t1 (ss/text :text "t1")
+      t2 (ss/text :text "t2")
+      msg (to-array [  t1 t2 ])
+      ]
+  (.setMessage op msg)
+  ;(.setMessageType op javax.swing.JOptionPane/INFORMATION_MESSAGE)
+  (.setMessageType op javax.swing.JOptionPane/QUESTION_MESSAGE)
+  (let [d (.createDialog op nil "width100")]
+    (println "d = " d)
+    (.setVisible d true)
+    (println "t1 = " (ss/text t1))
+    (println "t2 = " (ss/text t2))
+    (println "d = " d)
+    ))
+
+
