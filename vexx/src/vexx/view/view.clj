@@ -3,7 +3,18 @@
             [seesaw.dev  :as ssd]
             [seesaw.mig  :as ssm]
             [seesaw.bind :as b]
-            [vexx.controller.controller :as vc ]))
+            [vexx.view.xlist :as xl]
+            [vexx.controller.controller :as vc ]
+            [vexx.controller.db-json :as vc-db ]))
+
+(comment 
+(ns vexx.view.view
+  (:require
+   [vexx.controller.controller]
+   [vexx.controller.db-json]
+   [vexx.model.model]
+   :reload)))
+
 
 
 ;(ssd/show-options (ss/combobox :id :stroke :class :style :model [1 2 3 5 8 13 21]))
@@ -20,64 +31,57 @@
         new-el (ss/text w-text-in)]
     (vc/textin-listener-keytyped ch new-el)))
 
-(defn- add-xtab [t data]
-  (.addTab t (:name data) (ss/text (:content data))))
 
-(defn listener-xlist-selection
-  [e tpane]
-  (let [sel (ss/selection e)
-        sel-data (vc/xlist-listener-selection sel)        ]
-    (.removeAll tpane)
-    (dorun (map #(add-xtab tpane %) sel-data))))
+;; (defn listener-xlist-selection
+;;   [e tpane]
+;;   (let [sel (keyword (ss/selection e))
+;;         sel-data (vc/xlist-listener-selection sel)        ]
+;;     (.removeAll tpane)
+;;     (dorun (map #(add-xtab tpane %) sel-data))))
 
-(defn listener-xlist-keyreleased
-  [e tpane] 
-  (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e)) ;; handle DEL pressed
-    (let [jl (.getSource e)
-          sel-index (.getSelectedIndex jl)
-          new-size (dec (.getSize (.getModel jl)))
-          new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
-      (.setSelectedIndex jl new-sel-index)
-      (vc/xlist-delete-item)))  
+;; (defn listener-xlist-keyreleased
+;;   [e tpane] 
+;;   (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e)) ;; handle DEL pressed
+;;     (let [jl (.getSource e)
+;;           sel-index (.getSelectedIndex jl)
+;;           new-size (dec (.getSize (.getModel jl)))
+;;           new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
+;;       (.setSelectedIndex jl new-sel-index)
+;;       (vc/xlist-delete-item)))  
 
-  (if (= \newline (.getKeyChar e)) ;; handle ENTER pressed
-    (let [jl (.getSource e)
-          sel-index (.getSelectedIndex jl)
-          ]
-      (let [t (ss/text :text "t1") 
-            result (javax.swing.JOptionPane/showInputDialog
-                    (ss/border-panel :size [100 :by 100])
-                    t
-                    "Input"
-                    javax.swing.JOptionPane/QUESTION_MESSAGE
-                    nil
-                    (to-array [1 2 3 4])
-                    "Titan"
-                    )
-            ]
-        (let [a (ss/text t)
-              b result]
-        (if result
-          (let []
-            (vc/xlist-add-tab-to-item :tab-name a)
-            (.fireSelectionValueChanged jl sel-index sel-index false)
-            ))
-        )))))
+;;   (if (= \newline (.getKeyChar e)) ;; handle ENTER pressed
+;;     (let [jl (.getSource e)
+;;           sel-index (.getSelectedIndex jl)
+;;           ]
+;;       (let [t (ss/text :text "t1") 
+;;             result (javax.swing.JOptionPane/showInputDialog
+;;                     (ss/border-panel :size [100 :by 100])
+;;                     t
+;;                     "Input"
+;;                     javax.swing.JOptionPane/QUESTION_MESSAGE
+;;                     nil
+;;                     (to-array [1 2 3 4])
+;;                     "Titan"
+;;                     )
+;;             ]
+;;         (let [a (ss/text t)
+;;               b result]
+;;           (if result
+;;             (let []
+;;               (vc/xlist-add-tab-to-item :tab-name a)
+;;               (.fireSelectionValueChanged jl sel-index sel-index false)
+;;               ))
+;;           )))))
+;; ;(def x (create-view))
 
+(defn listener-button-save
+  [e]
+  (vc-db/save-to-file))
 
-      
-                    
-
-(let [(new Object) complexMsg[] = { "Above Message", new ImageIcon("yourFile.gif"), new JButton("Hello"),
-        new JSlider(), new ImageIcon("yourFile.gif"), "Below Message" };
-
-    JOptionPane optionPane = new JOptionPane();
-    optionPane.setMessage(complexMsg);
-    optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-    JDialog dialog = optionPane.createDialog(null, "Width 100");
-    dialog.setVisible(true);
-
-;(def x (create-view))
+(defn listener-button-load
+  [e]
+  (vc-db/load-from-file)
+  )
 
 ;; ----------------------------
 ;; Behavior
@@ -90,14 +94,21 @@
         xt (ss/select p [:#xtext])
         text-in (ss/select p [:#text-in])
         tpane (ss/select root [:#tpane])
+        bsave (ss/select root [:#buttonSave])
+        bload (ss/select root [:#buttonLoad])
         ]
     (vc/add-watch-list xl)
     (vc/add-watch-textlog text-log)
-    (ss/listen xl
-               :selection #(listener-xlist-selection % tpane)
-               :key-released #(listener-xlist-keyreleased % tpane))
+    (xl/add-behavior xl tpane)
+    ;; (ss/listen xl
+    ;;            :selection #(xl/listener-xlist-selection % tpane)
+    ;;            :key-released #(xl/listener-xlist-keyreleased % tpane))
     (ss/listen text-in
                :key-typed listener-textin-keytyped)
+    (ss/listen bsave
+               :action listener-button-save)
+    (ss/listen bload
+               :action listener-button-load)
     root))
 
 
@@ -106,14 +117,16 @@
   (let [lp (ssm/mig-panel :id :panel
                           :items[
                                  ["Propeller"        "split, span, gaptop 10"]
-                                 [(ss/button :id :buttonDelete :class :tool :text "Delete")]
+                                 [(ss/button :id :buttonSave :class :tool :text "Save")]
+                                 [(ss/button :id :buttonLoad :class :tool :text "Load")]
                                  [(ss/toggle :id :pencil  :class :tool :text "Pencil" )]
                                  [(ss/combobox :id :stroke :class :style
                                                :model [1 2 3 5 8 13 21])"wrap"]
                                  [(ss/text :id :text-in
                                            :text "input" :editable? true :columns 30) "span"]
-                                 [(ss/listbox :id :xlist :size [400 :by 400]
-                                              :model (vc/get-listbox-data)) "span"]
+                                 (xl/make-xlist)
+                                 ;; [(ss/listbox :id :xlist :size [400 :by 400]
+                                 ;;              :model (vc/get-listbox-data)) "span"]
                                  [(ss/text :id :xtext
                                            :text "Hi Mom!!" :editable? true :columns 30
                                            :multi-line? :true :rows 2) "wrap"]

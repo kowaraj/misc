@@ -2,7 +2,7 @@
   (:require
    [seesaw.bind :as b]
             ))
-            
+(println "loading vexx.model.model...")            
 
 ;;;----------------------------
 ;;; Database of knowledge items
@@ -18,11 +18,24 @@
 ;;  }
 
 (def db (ref {}))
+
+(declare set-list-data)
+(defn set-db
+  [data]
+  (dosync (ref-set db data))
+  (set-list-data)
+  )
+
 ;(dosync (ref-set db {"itemname45" {:id 45, :data "useful data str for item45"}, "itemname46" {:id 46, :data "useful data str46"}}))
 
 (defn make-item [& {:keys [id name data]
                     :or {data []}}]
-  [name {:id id :data data}])
+  [(keyword name) {:id id :data data}])
+
+;; (identical?  (keyword :d) :d)
+;; (identical? (+ 1 1) 2)
+;; (=  (keyword :d) :d)
+
 ;(make-item :id 45 :name "itemname")
 
 (defn add-item [item]
@@ -32,13 +45,16 @@
 ;; (add-item (make-item :id 46 :name "itemname46" :data "useful data str46"))
 
 (defn del-item [name]
-  (dosync (alter db dissoc name)))
+  (dosync (alter db dissoc (keyword name))))
 ;;(del-item "x")
 ;;@db
+;; {"7" {"id" 48, "data" [], :data ({:name "t1", :type :text, :content "default tab content"})}}
+;; {"7" {"id" 48, "data" [{"name" "t1", "type" "text", "content" "default tab content"}]}}
+
 
 
 (defn get-items-name []
-  (map first @db))
+  (map name (map first @db)))
 
 (defn get-items-str []
    (clojure.string/join "-\n" (map first @db)))
@@ -52,17 +68,19 @@
   {:name name :type type :content content})
 ;(make-data-item :name (str "new item name!") :content "new item content")
 
+(defn add-data-item
+  [name data-item]
+  (println "db = " @db)
+  (println "data-item  = " data-item)
+  (dosync (alter db update-in [(keyword name) :data] conj data-item)))
+
+(declare get-xlist-sel)
 (defn add-data-item-to-sel-item
   [data-item]
   (println "data-item-  = " data-item)
   (let [name (get-xlist-sel)]
     (add-data-item name data-item)))
 
-(defn add-data-item
-  [name data-item]
-  (println "db = " @db)
-  (println "data-item  = " data-item)
-  (dosync (alter db update-in [name :data] conj data-item)))
 
 ;; (def x {1 {:id 48, :data []}})
 ;; (conj (:data (get x 1)) {:name new item name, :type :text, :content new item content})
@@ -99,6 +117,10 @@
 
 (def list-data (ref [])) ;list of strings for listbox (xlist)
 
+(defn set-list-data
+  []
+  (dosync (ref-set list-data (get-items-name))))
+
 (defn get-list-data
   []
   (get-items-name))
@@ -120,7 +142,8 @@
   (let [name (get-xlist-sel)]
     (del-item name) ;;change db
 ;;;  (dosync (alter list-data #(remove (set [name]) %) ))) ;;change list-data
-    (dosync (ref-set list-data (get-items-name)))))
+    (set-list-data);    (dosync (ref-set list-data (get-items-name)))
+    ))
 
 
 ;; ----------------------------

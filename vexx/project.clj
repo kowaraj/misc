@@ -8,6 +8,8 @@
                  [seesaw "1.4.2" :exclusions [org.clojure/clojure]]
                  [cider/cider-nrepl "0.10.0-SNAPSHOT"]
                  [org.clojure/data.json "0.2.6"]
+                 [cheshire "5.6.3"]
+
                  ]
   :repl-options {:nrepl-middleware
                  []

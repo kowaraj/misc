@@ -7,6 +7,7 @@
             [vexx.controller.db-json :as cj]
             ))
 
+(println "loading vexx.controller.controller...")
 
 (defn- make-list-model
   [items]
@@ -65,10 +66,12 @@
 
 (defn xlist-listener-selection
   [sel]
-    (vm/set-xlist-sel sel)
-    (vm/set-log-data (str "xlist selected value: " sel))
-    (let [sel-data (vm/get-item-data sel)]
-      sel-data))
+  (println "sel = " sel)
+  (vm/set-xlist-sel sel)
+  (vm/set-log-data (str "xlist selected value: " sel))
+  (let [sel-data (vm/get-item-data sel)]
+    (println "sel-data = " sel-data)
+    sel-data))
 
 
 
