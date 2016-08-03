@@ -37,21 +37,6 @@
     (vm/set-log-data (str "Symbol you typed: " ch))
     ))
 
-;; (defn xlist-listener-key-released
-;;   [e]
-;;   (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e)) ;; handle DEL pressed
-;;     (let [jl (.getSource e)
-;;           sel-index (.getSelectedIndex jl)
-;;           new-size (dec (.getSize (.getModel jl)))
-;;           new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
-;;       (.setSelectedIndex jl new-sel-index)
-;;       (vm/delete-list-sel-item) ;; update the model
-;;       ))
-;;   (if (= \newline (.getKeyChar e)) ;; handle + pressed
-;;     (let [i (vm/make-data-item :name "new item name" :content "new item content")]
-;;       (println "ii = " i)
-;;       (vm/add-data-item-to-sel-item i)) ;; update the model
-;;     ))
 (defn xlist-delete-item
   []
   (vm/delete-list-sel-item)) ;; update the model
@@ -62,9 +47,7 @@
   (let [item (vm/make-data-item :name tab-name :type tab-type :content tab-content)]
     (vm/add-data-item-to-sel-item item))) ;; update the model
 
-
-
-(defn xlist-listener-selection
+(defn xlist-listener-selection ;rename to get/make-data
   [sel]
   (println "sel = " sel)
   (vm/set-xlist-sel sel)

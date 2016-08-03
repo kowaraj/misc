@@ -3,19 +3,20 @@
             [seesaw.dev  :as ssd]
             [seesaw.mig  :as ssm]
             [seesaw.bind :as b]
-            [vexx.controller.controller :as vc ]
-            [vexx.controller.db-json :as vc-db ]))
+            [vexx.controller.controller :as c ]
+            ;[vexx.controller.db-json :as c-db ]
+            [vexx.view.tpane :as v-tp]
+            ))
+
+(println "loading vexx.view.xlist...")
 
 
-(defn- add-xtab [t data]
-  (.addTab t (:name data) (ss/text (:content data))))
 
 (defn listener-xlist-selection
   [e tpane]
   (let [sel (keyword (ss/selection e))
-        sel-data (vc/xlist-listener-selection sel)        ]
-    (.removeAll tpane)
-    (dorun (map #(add-xtab tpane %) sel-data))))
+        sel-data (c/xlist-listener-selection sel) ]
+    (v-tp/add-tabs tpane sel-data)))
 
 (defn listener-xlist-keyreleased
   [e tpane] 
@@ -25,20 +26,20 @@
           new-size (dec (.getSize (.getModel jl)))
           new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
       (.setSelectedIndex jl new-sel-index)
-      (vc/xlist-delete-item)))  
+      (c/xlist-delete-item)))  
 
   (if (= \newline (.getKeyChar e)) ;; handle ENTER pressed
     (let [jl (.getSource e)
           sel-index (.getSelectedIndex jl)
           ]
-      (let [t (ss/text :text "t1") 
+      (let [t (ss/text :text "Enter new Tab name") 
             result (javax.swing.JOptionPane/showInputDialog
                     (ss/border-panel :size [100 :by 100])
                     t
                     "Input"
                     javax.swing.JOptionPane/QUESTION_MESSAGE
                     nil
-                    (to-array [1 2 3 4])
+                    (to-array [:text :pic :other])
                     "Titan"
                     )
             ]
@@ -46,7 +47,7 @@
               b result]
           (if result
             (let []
-              (vc/xlist-add-tab-to-item :tab-name a)
+              (c/xlist-add-tab-to-item :tab-name a :tab-type b)
               (.fireSelectionValueChanged jl sel-index sel-index false)
               ))
           )))))
@@ -55,7 +56,7 @@
 (defn make-xlist
   []
   [(ss/listbox :id :xlist :size [400 :by 400]
-              :model (vc/get-listbox-data)) "span"])
+              :model (c/get-listbox-data)) "span"])
 
 (defn add-behavior
   [xl tpane]

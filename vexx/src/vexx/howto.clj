@@ -1,3 +1,7 @@
+(ns howto
+  (:require [seesaw.core :as ss]
+            [seesaw.dev  :as ssd]))
+
 "doc"
 
 (clojure.repl/doc juxt)
@@ -170,3 +174,33 @@ data
     ))
 
 
+
+
+""
+(ssd/show-options (ss/button))
+(let [bpw (ss/label
+          :text "Tab1")
+      bpe (ss/button
+          :text "X"
+          :size [20 :by 20]
+          :listen [:action (fn [event](ss/alert "Next!" ))])
+
+      p (ss/border-panel :east bpe
+                         :west bpw)
+
+
+      t (ss/tabbed-panel :id :tpane
+                         :placement :top
+                         :size [400 :by 500]
+                         :tabs [
+                                {:title  p   
+                                 :content "content of tab1"}
+                                
+                                {:title "tab2"
+                                    :content "content of tab2"}])      
+      window (ss/frame
+              :title "First Example" :content t :width 200
+              :height 50)]
+  (println "tabs = " t)
+  (ss/pack! window)
+  (ss/show! window))
