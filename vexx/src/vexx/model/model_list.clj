@@ -55,6 +55,7 @@
 (defn delete-selected-item
   []
   (let [name (m-sel/get-xlist-sel)]
+    (println "model.model-list/delete-selected-item: name=" name)
     (m-db/del-item name) ;;change db
     ))
 

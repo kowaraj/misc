@@ -17,6 +17,7 @@
   [e tpane]
   (let [sel (keyword (ss/selection e))
         sel-data (c-l/listener-selection sel) ]
+    (println "view.listbox/listener-selection: sel=" sel ", sel-data=" sel-data)
     (v-tp/add-tabs tpane sel-data)))
 
 (defn listener-keyreleased
@@ -26,8 +27,10 @@
           sel-index (.getSelectedIndex jl)
           new-size (dec (.getSize (.getModel jl)))
           new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
+      (println "view.listbox/listener-keyreleased: si=" sel-index ", ns=" new-size "ni=" new-sel-index)
+      (c-l/delete-item)
       (.setSelectedIndex jl new-sel-index)
-      (c-l/delete-item)))
+      ))
 
   (if (= \newline (.getKeyChar e)) ;; handle ENTER pressed
     (let [jl (.getSource e)
