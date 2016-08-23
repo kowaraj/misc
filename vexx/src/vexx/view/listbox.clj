@@ -19,7 +19,7 @@
         sel-data (c-l/listener-selection sel) ]
     (v-tp/add-tabs tpane sel-data)))
 
-(defn listener-listbox-keyreleased
+(defn listener-keyreleased
   [e tpane] 
   (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e)) ;; handle DEL pressed
     (let [jl (.getSource e)
@@ -69,4 +69,4 @@
   [xl tpane]
   (ss/listen xl
              :selection #(listener-selection % tpane)
-             :key-released #(listener-listbox-keyreleased % tpane)))
+             :key-released #(listener-keyreleased % tpane)))
