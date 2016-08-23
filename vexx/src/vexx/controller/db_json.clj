@@ -1,6 +1,6 @@
 (ns vexx.controller.db-json
   (:require [clojure.data.json :as json]
-            [vexx.model.model :as vm]
+            [vexx.model.model-db :as m-db]
             [cheshire.core :as ch] ;:refer :all]
             ))
 
@@ -10,12 +10,12 @@
 
 (defn load-from-file []
   (let [data-json (slurp db-filename)]
-    (vm/set-db (json/read-str data-json :key-fn keyword))))
+    (m-db/load-db (json/read-str data-json :key-fn keyword))))
 ;(load-from-file)
 ;@vm/db
 
 (defn save-to-file []
-  (let [data-json (json/write-str @vm/db)]
+  (let [data-json (json/write-str @m-db/db)]
     (spit db-filename data-json)))
 ;(save-to-file)
 ;@vm/db

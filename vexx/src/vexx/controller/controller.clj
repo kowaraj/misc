@@ -1,63 +1,70 @@
 (ns vexx.controller.controller
-  (:require [seesaw.core :as ss]
-            [seesaw.dev  :as ssd]
-            [seesaw.mig  :as ssm]
-            [seesaw.bind :as b]
-            [vexx.model.model :as vm]
-            [vexx.controller.db-json :as cj]
-            ))
+  (:require
+   [seesaw.core :as ss]
+   [seesaw.dev  :as ssd]
+   [seesaw.mig  :as ssm]
+   [seesaw.bind :as b]
+   [vexx.model.model-db :as m-db]
+   [vexx.model.model-list :as m-l]
+   [vexx.model.model-log :as m-log]
+   [vexx.model.data-item :as m-di]
+   [vexx.model.utils :as m-u]
+   [vexx.controller.db-json :as cj]
+   ))
 
 (println "loading vexx.controller.controller...")
 
-(defn- make-list-model
-  [items]
-  (let [model (javax.swing.DefaultListModel.)]
-    (doseq [item items] (.addElement model item))
-    model))
-
-(defn add-watch-list
-  [lb]
-  (add-watch vm/list-data nil
-             (fn [_ _ _ items] (.setModel lb (make-list-model items)))))
 
 
-(defn add-watch-textlog
-  [text-log]
-  (add-watch vm/log-data nil
-             (fn [_ _ _ new-text]
-               (println "add-watch-textlog" new-text)
-               (ss/text! text-log new-text))))
+
+
+;; ----------------------------
+;; watchers for listbox
+
+(defn- db-watcher
+  "
+  Watcher - to update the content of listbox when db changed
+  "
+  [_ _ _ new-state]
+  (dosync (ref-set m-l/list-data (m-db/get-items-by-name))))
+
+(defn add-watch-db  [ ]  (add-watch m-db/db nil db-watcher))
+
+
+
+
+
+(defn handle-add-new-item
+  [name]
+  (let [new-item (m-u/make-item :id 48 :name name)]
+    (println "new-item: " new-item)
+    (m-db/add-item new-item) ;;change db
+    (m-log/set-log-data (m-l/get-list-str))))
+
 
 (defn textin-listener-keytyped
   [ch new-el]
+  (m-log/set-log-data (str "Symbol you typed: " ch ", new-el: " new-el))
   (if (= ch \newline)
-    (let [_ nil]
-      (vm/add-list-item new-el)
-      (vm/set-log-data (vm/get-list-str)))
-    (vm/set-log-data (str "Symbol you typed: " ch))
-    ))
+    (handle-add-new-item new-el)
+    (println "textin-listener-keytyped: " ch)))
 
-(defn xlist-delete-item
+
+
+
+(defn init-controller
+  "Kind of a constructor, default inits"
   []
-  (vm/delete-list-sel-item)) ;; update the model
-
-(defn xlist-add-tab-to-item
-  [& {:keys [tab-name tab-type tab-content]
-      :or {tab-name "default tab name" tab-type :text tab-content "default tab content"}}]  
-  (let [item (vm/make-data-item :name tab-name :type tab-type :content tab-content)]
-    (vm/add-data-item-to-sel-item item))) ;; update the model
-
-(defn xlist-listener-selection ;rename to get/make-data
-  [sel]
-  (println "sel = " sel)
-  (vm/set-xlist-sel sel)
-  (vm/set-log-data (str "xlist selected value: " sel))
-  (let [sel-data (vm/get-item-data sel)]
-    (println "sel-data = " sel-data)
-    sel-data))
+  (add-watch-db)
+  )
 
 
+;; ----------------------------
+;; watchers for the log
 
-(defn get-listbox-data []
-  (vm/get-list-data))
-
+(defn add-watch-textlog
+  [text-log]
+  (add-watch m-log/log-data nil
+             (fn [_ _ _ new-text]
+               (println "watch-textlog: " new-text)
+               (ss/text! text-log new-text))))

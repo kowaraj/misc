@@ -3,17 +3,27 @@
             [seesaw.dev  :as ssd]
             [seesaw.mig  :as ssm]
             [seesaw.bind :as b]
-            [vexx.view.xlist :as xl]
+            [vexx.view.listbox :as v-lb]
+
+            [vexx.model.model-db :as m-db]
+            [vexx.model.model-list :as m-xl]
+            [vexx.model.model-list]
+            [vexx.model.data-item]
+
             [vexx.controller.controller :as vc ]
+            [vexx.controller.controller-listbox :as c-lb ]
             [vexx.controller.db-json :as vc-db ]))
 
 (comment 
 (ns vexx.view.view
   (:require
    [vexx.controller.controller]
+   [vexx.controller.controller-listbox]
    [vexx.controller.db-json]
-   [vexx.model.model]
-   [vexx.view.xlist]
+   [vexx.model.model-db]
+   [vexx.model.model-list]
+   [vexx.model.data-item]
+   [vexx.view.listbox]
    [vexx.view.tpane]
    :reload))
 )
@@ -63,9 +73,10 @@
         bsave (ss/select root [:#buttonSave])
         bload (ss/select root [:#buttonLoad])
         ]
-    (vc/add-watch-list xl)
+    (vc/init-controller)
+    (c-lb/add-watch-listbox xl)
     (vc/add-watch-textlog text-log)
-    (xl/add-behavior xl tpane)
+    (v-lb/add-behavior xl tpane)
     ;; (ss/listen xl
     ;;            :selection #(xl/listener-xlist-selection % tpane)
     ;;            :key-released #(xl/listener-xlist-keyreleased % tpane))
@@ -92,7 +103,7 @@
                                                :model [1 2 3 5 8 13 21])"wrap"]
                                  [(ss/text :id :text-in
                                            :text "input" :editable? true :columns 30) "span"]
-                                 (xl/make-xlist)
+                                 (v-lb/make-listbox)
                                  ;; [(ss/listbox :id :xlist :size [400 :by 400]
                                  ;;              :model (vc/get-listbox-data)) "span"]
                                  [(ss/text :id :xtext

@@ -1,24 +1,25 @@
-(ns vexx.view.xlist
+(ns vexx.view.listbox
   (:require [seesaw.core :as ss]
             [seesaw.dev  :as ssd]
             [seesaw.mig  :as ssm]
             [seesaw.bind :as b]
             [vexx.controller.controller :as c ]
+            [vexx.controller.controller-listbox :as c-l ]
             ;[vexx.controller.db-json :as c-db ]
             [vexx.view.tpane :as v-tp]
             ))
 
-(println "loading vexx.view.xlist...")
+(println "loading vexx.view.listbox...")
 
 
 
-(defn listener-xlist-selection
+(defn listener-selection
   [e tpane]
   (let [sel (keyword (ss/selection e))
-        sel-data (c/xlist-listener-selection sel) ]
+        sel-data (c-l/listener-selection sel) ]
     (v-tp/add-tabs tpane sel-data)))
 
-(defn listener-xlist-keyreleased
+(defn listener-listbox-keyreleased
   [e tpane] 
   (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e)) ;; handle DEL pressed
     (let [jl (.getSource e)
@@ -26,7 +27,7 @@
           new-size (dec (.getSize (.getModel jl)))
           new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
       (.setSelectedIndex jl new-sel-index)
-      (c/xlist-delete-item)))  
+      (c-l/delete-item)))
 
   (if (= \newline (.getKeyChar e)) ;; handle ENTER pressed
     (let [jl (.getSource e)
@@ -47,19 +48,25 @@
               b result]
           (if result
             (let []
-              (c/xlist-add-tab-to-item :tab-name a :tab-type b)
+              (c-l/listbox-add-tab-to-item :tab-name a :tab-type b)
               (.fireSelectionValueChanged jl sel-index sel-index false)
               ))
-          )))))
+          ))
+      (.setSelectedIndex jl sel-index)))
+  )
 ;(def x (create-view))
 
-(defn make-xlist
+(defn make-listbox
+  " Creates listbox widget
+    Called from view/make-content
+  "
   []
-  [(ss/listbox :id :xlist :size [400 :by 400]
-              :model (c/get-listbox-data)) "span"])
+  [(ss/listbox :id :xlist
+               :size [400 :by 400]
+               :model (c-l/get-listbox-data)) "span"])
 
 (defn add-behavior
   [xl tpane]
   (ss/listen xl
-             :selection #(listener-xlist-selection % tpane)
-             :key-released #(listener-xlist-keyreleased % tpane)))
+             :selection #(listener-selection % tpane)
+             :key-released #(listener-listbox-keyreleased % tpane)))
