@@ -14,12 +14,28 @@
   (println "data-item  = " data-name)
   (dosync (alter m-db/db update-in [(keyword item-name) :data] conj data-name)))
 
+
+
+
 (defn- del-data-item
   [item-name data-name]
-  (println "db = " @m-db/db)
-  (println "data-name  = " data-name)
-  (dosync (alter m-db/db update-in [(keyword item-name) :data] conj data-name)))
-  
+
+  (letfn [(fn-del-tab-of-item
+            [db item-name tab-name]
+            (let [
+                  item (item-name db)
+                  data (:data item)
+                  new-data (filter #(not (= (:name %) tab-name)) data)
+                  new-item (assoc item :data (apply vector new-data))
+                  ]
+              ;; (println "fn: new-item=" new-item ", new-data=" new-data)
+              (assoc db item-name new-item)))
+          ]
+    ;; (println "db= " @m-db/db)
+    ;; (println "model.data_item/del-data-item: item=" item-name ", data-item=" data-name)
+    (dosync (alter m-db/db
+                   fn-del-tab-of-item (keyword item-name) data-name))))
+
 
 (defn add-data-item-to-sel-item
   [data-item]
@@ -34,7 +50,7 @@
 
 (defn delete-data-item-of-sel-item
   [data-name]
-  (println "data-name = " data-name)
+  (println "model.data-item/delete-data-item-of-sel-item: data=" data-name)
   (let [item-name (m-sel/get-xlist-sel)]
     (del-data-item item-name data-name)))
 

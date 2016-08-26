@@ -10,33 +10,42 @@
 
 (println "loading vexx.view.tpane...")
 
-(defn- listener-delete-tab
+;(name (ss/config (ss/button :id "name1") :id))
+;(ssd/show-options (ss/border-panel :id "panel-title" :text "text"))
+
+
+ (defn- listener-delete-tab
   [e]
-  (let [w-button (.getSource e)
-        w-panel (.getParent w-button)
+  (let [w-buttonDeleteTab (.getSource e)
+        w-panel (.getParent w-buttonDeleteTab)
         tpane (.getParent w-panel)
-        name-str "fake name str TODO: replace"
+        name-str (name (ss/config w-buttonDeleteTab :id)) ; get the name of the _TAB_ from the button's _ID_
+        ;_ (println "name-str= " name-str)
+        ti (.indexOfTab tpane name-str)
         ]
-    (println "b = " w-button)
+    (println "b = " w-buttonDeleteTab)
     (println "p = " w-panel)
     (println "t = " tpane)
-    (ss/alert "Deleting :: "  )
+    (println "ti = " ti)
+    (ss/alert "Deleting :: ti=" ti)
     (c-tp/delete-tab name-str)
-    (.removeTab tpane (.indexOfTab tpane name-str))
+    (.removeTabAt tpane ti)
     ))
   
 (defn- make-tab
   [data t]
   (let [bDel (ss/button
-                :text "Delete Tab"
-                :listen [:action #(listener-delete-tab % )]);t (:name data))])
+              :id (:name data)
+              :text "Delete Tab"
+              :listen [:action #(listener-delete-tab % )]);t (:name data))])
         wMain (let [dtype (:type data)]
                 (println "type of tab to make: " dtype)
                 (cond (= dtype :text) (ss/text (:content data))
                       (= dtype :pic) (ss/canvas :paint #(.drawString %2 "I'm a canvas" 50 50))
                       :else (ss/label "other")))
         wFooter (ss/text " tags?.. ")
-        p (ss/border-panel :north bDel
+        p (ss/border-panel 
+                           :north bDel
                            :center wMain
                            :south wFooter)]
     p))

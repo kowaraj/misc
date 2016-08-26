@@ -11,5 +11,7 @@
 
 (defn delete-tab
   [name-str]
-  (println "delete tab with name = " name-str))
+  (println "delete tab with name = " name-str)
+  (m-di/delete-data-item-of-sel-item name-str)
+  )
 
