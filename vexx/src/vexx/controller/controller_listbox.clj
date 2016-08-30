@@ -1,22 +1,12 @@
 (ns vexx.controller.controller-listbox
   (:require
-   ;; [seesaw.core :as ss]
-   ;; [seesaw.dev  :as ssd]
-   ;; [seesaw.mig  :as ssm]
-   ;; [seesaw.bind :as b]
-   ;; [vexx.model.db :as m-db]
-   ;; [vexx.model.data-item :as m-di]
-   ;; [vexx.model.state :as m-s]
-   ;; [vexx.model.utils :as m-u]
    [vexx.model.model-list :as m-l]
    [vexx.model.model-log :as m-log]
    [vexx.model.model-selitem :as m-sel]
    [vexx.model.data-item :as m-di]
    [vexx.model.utils :as m-u]
-
    ))
 
-(println "loading vexx.controller.controller-listbox...")
 
 (defn add-watch-listbox
   [lb]
@@ -37,10 +27,15 @@
 
 (defn listener-selection
   [sel]
-  (println "sel = " sel)
-  (m-sel/set-xlist-sel sel)
+  (println "called: controller.controller_listbox/listener-selection: sel= " sel)
   (m-log/set-log-data (str "xlist selected value: " sel))
-  (let [sel-data (m-di/get-item-data sel)]
+
+  (if sel
+    (m-sel/set-xlist-sel sel)
+    (println ": controller.controller_listbox/listener-selection: nothing selected"))
+
+  (let [sel (m-sel/get-xlist-sel)
+        sel-data (m-di/get-item-data sel)]
     (println "sel-data = " sel-data)
     sel-data))
 

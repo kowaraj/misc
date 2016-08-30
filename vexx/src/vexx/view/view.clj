@@ -29,6 +29,8 @@
 )
 ;(def x (create-view))
 
+;(ss/button :id :buttonSave :class :tool :text "Save" :focusable? false)
+
 
 (ss/native!)
 
@@ -54,10 +56,14 @@
 
 (defn listener-tpane-keyreleased
   [e]
-  (println "listener-tpane-keyreleased")
+  (println "called: view.view/listener-tpane-keyreleased")
   (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e)) ;; handle DEL pressed
     (println "listener-tpane-keyreleased: DEL pressed")))
 
+(defn listener-tpane-focuslost
+  [e]
+  (println "called: view.view/listener-tpane-focuslost")
+  )
 
 ;; ----------------------------
 ;; Behavior
@@ -87,7 +93,8 @@
     (ss/listen bload
                :action listener-button-load)
     (ss/listen tpane
-               :key-released listener-tpane-keyreleased)
+               :key-released listener-tpane-keyreleased
+               :focus-gained listener-tpane-focuslost)
     root))
 
 

@@ -9,9 +9,25 @@
             [vexx.view.tpane :as v-tp]
             ))
 
-(println "loading vexx.view.listbox...")
+(defn listener-focusgained
+  [e] 
+  (println "called: view.listbox/listener-focusgained, sel=" (ss/selection e))
+  (let [
+        jl (.getSource e)
+        sel-index (.getSelectedIndex jl)
+        ]
+    (println "view.listbox/listener-focusgained: sel-index=" sel-index)
+    ))
 
-
+(defn listener-focuslost
+  [e] 
+  (println "called: view.listbox/listener-focuslost: sel=" (ss/selection e))
+  (let [
+        jl (.getSource e)
+        sel-index (.getSelectedIndex jl)
+        ]
+    (println "view.listbox/listener-focuslost: sel-index=" sel-index)
+    ))
 
 (defn listener-selection
   [e tpane]
@@ -72,4 +88,8 @@
   [xl tpane]
   (ss/listen xl
              :selection #(listener-selection % tpane)
-             :key-released #(listener-keyreleased % tpane)))
+             :key-released #(listener-keyreleased % tpane)
+             :focus-lost #(listener-focuslost %)
+             :focus-gained #(listener-focusgained %)
+             ))
+

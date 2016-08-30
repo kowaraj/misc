@@ -28,7 +28,7 @@
   [lb]
   (add-watch list-data nil
              (fn [_ _ _ items]
-               (println "--- !!! --- listbox-watcher triggered!")
+               (println "called: model.model_list/watch-listbox--fn (listbox-watcher)")
                (.setModel lb (make-list-model items)))))
 
 
@@ -44,16 +44,9 @@
   ;;(clojure.string/join "-\n" @m-s/list-data))
   (clojure.string/join ",, " (get-data)))
 
-
-;; (defn add-list-item
-;;   [name]
-;;   (let [new-item (make-item :id 48 :name name)
-;;         ]
-;;     (add-item new-item) ;;change db
-;;     (dosync (ref-set m-s/list-data (get-items-name)))))
-
 (defn delete-selected-item
   []
+  (println "called: model.model-list/delete-selected-item")
   (let [name (m-sel/get-xlist-sel)]
     (println "model.model-list/delete-selected-item: name=" name)
     (m-db/del-item name) ;;change db
