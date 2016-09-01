@@ -37,6 +37,29 @@
                    fn-del-tab-of-item (keyword item-name) data-name))))
 
 
+(defn- modify-data-item--fn
+  [db item-name d-i-name d-i-content]
+  (let [
+        item (item-name db)
+        data (:data item)
+        data-minus-di (filter #(not (= (:name %) d-i-name)) data)
+        old-di (filter #(= (:name %) d-i-name) data)
+        _ (println "old-di = " old-di)
+        _ (println "old-di*= " (first old-di))
+        new-di (assoc (first old-di) :content d-i-content)
+        new-data (conj data-minus-di new-di)
+        new-item (assoc item :data (apply vector new-data))
+        ]
+    (println "! old-item = " item)
+    (println "! new-item = " new-item)
+    (assoc db item-name new-item)))
+
+(defn- modify-data-item
+  [item-name d-i-name d-i-content]
+  (dosync (alter m-db/db
+                 modify-data-item--fn (keyword item-name) d-i-name d-i-content)))
+
+
 (defn add-data-item-to-sel-item
   [data-item]
   (println "data-item-  = " data-item)
@@ -53,6 +76,12 @@
   (println "model.data-item/delete-data-item-of-sel-item: data=" data-name)
   (let [item-name (m-sel/get-xlist-sel)]
     (del-data-item item-name data-name)))
+
+(defn modify-data-item-of-sel-item
+  [d-i-name d-i-content]
+  (println "model.data-item/modify-data-item-of-sel-item: d-i-name=" d-i-name ", d-i-content=" d-i-content)
+  (let [item-name (m-sel/get-xlist-sel)]
+    (modify-data-item item-name d-i-name d-i-content)))
 
 
 ;(map println @m-db/db)

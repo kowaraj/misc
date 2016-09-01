@@ -18,6 +18,7 @@
 (def list-data (ref []))
 
 
+
 (defn- make-list-model
   [items]
   (let [model (javax.swing.DefaultListModel.)]
@@ -28,7 +29,7 @@
   [lb]
   (add-watch list-data nil
              (fn [_ _ _ items]
-               (println "called: model.model_list/watch-listbox--fn (listbox-watcher)")
+               (println " : model.model_list/watch-listbox--fn (listbox-watcher): items =" items)
                (.setModel lb (make-list-model items)))))
 
 
@@ -46,9 +47,9 @@
 
 (defn delete-selected-item
   []
-  (println "called: model.model-list/delete-selected-item")
+  (println " : model.model-list/delete-selected-item")
   (let [name (m-sel/get-xlist-sel)]
-    (println "model.model-list/delete-selected-item: name=" name)
+    (println " : model.model-list/delete-selected-item: name=" name)
     (m-db/del-item name) ;;change db
     ))
 

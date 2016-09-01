@@ -56,13 +56,13 @@
 
 (defn listener-tpane-keyreleased
   [e]
-  (println "called: view.view/listener-tpane-keyreleased")
+  (println " : view.view/listener-tpane-keyreleased")
   (if (= java.awt.event.KeyEvent/VK_DELETE (.getKeyCode e)) ;; handle DEL pressed
     (println "listener-tpane-keyreleased: DEL pressed")))
 
 (defn listener-tpane-focuslost
   [e]
-  (println "called: view.view/listener-tpane-focuslost")
+  (println " : view.view/listener-tpane-focuslost")
   )
 
 ;; ----------------------------
@@ -107,7 +107,7 @@
                                  [(ss/button :id :buttonLoad :class :tool :text "Load")]
                                  [(ss/toggle :id :pencil  :class :tool :text "Pencil" )]
                                  [(ss/combobox :id :stroke :class :style
-                                               :model [1 2 3 5 8 13 21])"wrap"]
+                                               :model [1 2 3 5 8 13 21]) "wrap"]
                                  [(ss/text :id :text-in
                                            :text "input" :editable? true :columns 30) "span"]
                                  (v-lb/make-listbox)

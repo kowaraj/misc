@@ -25,18 +25,18 @@
     (m-di/add-data-item-to-sel-item item))) ;; update the model
 
 
-(defn listener-selection
+(defn get-data
   [sel]
-  (println "called: controller.controller_listbox/listener-selection: sel= " sel)
+  (println " : controller.controller_listbox/get-data:  sel= " sel)
   (m-log/set-log-data (str "xlist selected value: " sel))
 
   (if sel
     (m-sel/set-xlist-sel sel)
-    (println ": controller.controller_listbox/listener-selection: nothing selected"))
+    (println " : controller.controller_listbox/get-data:  nothing selected"))
 
   (let [sel (m-sel/get-xlist-sel)
         sel-data (m-di/get-item-data sel)]
-    (println "sel-data = " sel-data)
+    (println " : controller.controller_listbox/get-data:  sel-data = " sel-data)
     sel-data))
 
 

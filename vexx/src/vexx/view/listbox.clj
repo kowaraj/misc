@@ -5,36 +5,52 @@
             [seesaw.bind :as b]
             [vexx.controller.controller :as c ]
             [vexx.controller.controller-listbox :as c-l ]
-            ;[vexx.controller.db-json :as c-db ]
+            [vexx.model.model-selitem :as m-sel]
             [vexx.view.tpane :as v-tp]
             ))
 
 (defn listener-focusgained
   [e] 
-  (println "called: view.listbox/listener-focusgained, sel=" (ss/selection e))
+  (println " : view.listbox/listener-focusgained, sel=" (ss/selection e))
   (let [
         jl (.getSource e)
         sel-index (.getSelectedIndex jl)
         ]
-    (println "view.listbox/listener-focusgained: sel-index=" sel-index)
+    (println " : view.listbox/listener-focusgained: sel-index=" sel-index)
     ))
 
 (defn listener-focuslost
   [e] 
-  (println "called: view.listbox/listener-focuslost: sel=" (ss/selection e))
+  (println " : view.listbox/listener-focuslost: sel=" (ss/selection e))
   (let [
         jl (.getSource e)
         sel-index (.getSelectedIndex jl)
         ]
-    (println "view.listbox/listener-focuslost: sel-index=" sel-index)
+    (println " : view.listbox/listener-focuslost: sel-index=" sel-index)
     ))
 
 (defn listener-selection
   [e tpane]
-  (let [sel (keyword (ss/selection e))
-        sel-data (c-l/listener-selection sel) ]
-    (println "view.listbox/listener-selection: sel=" sel ", sel-data=" sel-data)
-    (v-tp/add-tabs tpane sel-data)))
+  (let [sel (keyword (ss/selection e))]
+    (println " : view.listbox/listener-selection: sel=" sel)
+    (if sel
+      (let [sel-data (c-l/get-data sel)
+            sel-index (.getSelectedIndex (.getSource e))
+            ]
+        (m-sel/set-xlist-sel-index sel-index) ;store the selected index
+        (println " : view.listbox/listener-selection: (sel) sel-data=" sel-data ", sel-index=" sel-index)
+        (v-tp/add-tabs tpane sel-data))
+      (let [sel-old (m-sel/get-xlist-sel)
+            _ (println "sel-old = " sel-old)
+            sel-data (c-l/get-data sel-old)
+            sel-index (m-sel/get-xlist-sel-index) ; retrieve stored index
+            ]
+        (println " : view.listbox/listener-selection: (old) sel-data=" sel-data ", sel-index=" sel-index)
+        (.setSelectedIndex (.getSource e) sel-index)
+        (v-tp/add-tabs tpane sel-data)))
+    ))
+
+;(defn- x-tf-shown  []  (println "!!! x-tf-shown !!!")  )
 
 (defn listener-keyreleased
   [e tpane] 
@@ -43,7 +59,7 @@
           sel-index (.getSelectedIndex jl)
           new-size (dec (.getSize (.getModel jl)))
           new-sel-index (if (>= sel-index new-size) (dec new-size) sel-index)]
-      (println "view.listbox/listener-keyreleased: si=" sel-index ", ns=" new-size "ni=" new-sel-index)
+      (println " : view.listbox/listener-keyreleased: si=" sel-index ", ns=" new-size "ni=" new-sel-index)
       (c-l/delete-item)
       (.setSelectedIndex jl new-sel-index)
       ))
@@ -52,7 +68,7 @@
     (let [jl (.getSource e)
           sel-index (.getSelectedIndex jl)
           ]
-      (let [t (ss/text :text "Enter new Tab name") 
+      (let [t (ss/text :text "Enter new Tab name") ; :component x-tf-shown)
             result (javax.swing.JOptionPane/showInputDialog
                     (ss/border-panel :size [100 :by 100])
                     t

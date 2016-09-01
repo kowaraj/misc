@@ -11,7 +11,13 @@
 
 (defn delete-tab
   [name-str]
-  (println "called: controller.controller_tpane/delete-tab: name = " name-str)
+  (println " : controller.controller_tpane/delete-tab: name = " name-str)
   (m-di/delete-data-item-of-sel-item name-str)
+  )
+
+(defn save-tab
+  [tab-name data-item-content]
+  (println " : controller.controller_tpane/save-tab: name = " tab-name ", content = " data-item-content)
+  (m-di/modify-data-item-of-sel-item tab-name data-item-content)
   )
 
