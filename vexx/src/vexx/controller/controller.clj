@@ -12,12 +12,6 @@
    [vexx.controller.db-json :as cj]
    ))
 
-(println "loading vexx.controller.controller...")
-
-
-
-
-
 ;; ----------------------------
 ;; watchers for listbox
 

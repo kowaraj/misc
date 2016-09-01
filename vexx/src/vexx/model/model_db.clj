@@ -1,11 +1,7 @@
 (ns vexx.model.model-db
   (:require
-   ;[vexx.model.model-list :as m-l]
    [vexx.model.utils :as m-u]
    ))
-
-(println "loading vexx.model.model-db...")            
-
 
 (def db (ref {})) ; complete database
 
@@ -19,7 +15,6 @@
 (defn load-db
   [data]
   (dosync (ref-set db data))
-  ;(m-xl/set-list-data)
   )
 
 
@@ -28,7 +23,6 @@
   [item]
   (dosync (alter db assoc-in [(:i-name item)] (:i-content item))))
 
-(add-item {:i-name :1, :i-content {:id 48, :data []}})
 
 
 (defn del-item

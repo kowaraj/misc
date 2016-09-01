@@ -6,8 +6,6 @@
    )
   )
 
-(println "loading vexx.model.model-list...")            
-
 ;;;----------------------------
 ;;; Model for main listbox
 ;;;
@@ -16,7 +14,6 @@
 ;;; 3. watcher - to refresh listbox' content when data changed
 
 (def list-data (ref []))
-
 
 
 (defn- make-list-model

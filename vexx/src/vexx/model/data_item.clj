@@ -5,8 +5,6 @@
    [vexx.model.model-selitem :as m-sel]
    ))
 
-(println "loading vexx.model.item...")
-
 
 (defn- add-data-item
   [item-name data-name]

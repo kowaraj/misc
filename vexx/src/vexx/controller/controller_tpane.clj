@@ -6,8 +6,6 @@
    [vexx.model.utils :as m-u]
    ))
 
-(println "loading vexx.controller.controller-tpane...")
-
 
 (defn delete-tab
   [name-str]

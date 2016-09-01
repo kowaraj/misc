@@ -4,7 +4,6 @@
             [cheshire.core :as ch] ;:refer :all]
             ))
 
-(println "loading vexx.controller.db-json...")
 
 (def db-filename "data/db.json")
 
