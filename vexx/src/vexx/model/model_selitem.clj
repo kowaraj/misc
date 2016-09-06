@@ -1,7 +1,7 @@
 (ns vexx.model.model-selitem
-  ;; (:require
-  ;;  [vexx.model.utils :as m-u]
-  ;;  )
+  (:require
+   [vexx.model.model-db :as m-db]
+   )
   )
 
 ;;;----------------------------
@@ -25,4 +25,11 @@
 (defn get-xlist-sel-index
   []
   @xlist-sel-index)
+
+(defn get-data-of-sel-item
+  [name]
+  (:data 
+   (get @m-db/db name)))
+
+
 

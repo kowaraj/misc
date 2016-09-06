@@ -6,6 +6,7 @@
    ))
 
 
+
 (defn- add-data-item
   [item-name data-name]
   (println "db = " @m-db/db)
@@ -57,17 +58,11 @@
   (dosync (alter m-db/db
                  modify-data-item--fn (keyword item-name) d-i-name d-i-content)))
 
-
 (defn add-data-item-to-sel-item
   [data-item]
   (println "data-item-  = " data-item)
   (let [name (m-sel/get-xlist-sel)]
     (add-data-item name data-item)))
-
-(defn get-item-data
-  [name]
-  (:data 
-   (get @m-db/db name)))
 
 (defn delete-data-item-of-sel-item
   [data-name]

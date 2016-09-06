@@ -4,7 +4,7 @@
    ))
 
 (def db (ref {})) ; complete database
-
+;@db
 
 (defn get-items-by-name 
   "Get seq of names of all the items. Called from model.xlist/..."
@@ -21,8 +21,8 @@
 (defn add-item
   "Add item to db"
   [item]
+  (println "item = " item)
   (dosync (alter db assoc-in [(:i-name item)] (:i-content item))))
-
 
 
 (defn del-item
@@ -30,6 +30,12 @@
   [name]
   (dosync (alter db dissoc (m-u/transform-s2k name))))
 
+
+(defn set-tags-for-selection
+  "Set tags for selected item"
+  [sel-item tags-string]
+  (dosync (alter db assoc-in [sel-item :tags] tags-string)))
+;(set-tags-for-selection :1 "t1, t2, t666...")  ;;@db
 
 
 

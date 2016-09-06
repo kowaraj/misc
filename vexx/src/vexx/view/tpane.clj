@@ -40,7 +40,8 @@
 (defn- tf--listener-keyreleased
   "
   Listener (key-released) for the JTextField widget of the JTabbedPane (that displays data-item)
-  Handles Ctrl+S to save the content of the text-field into the corresponding data-item of db
+  Handles:
+    Ctrl+S - to save the content of the text-field into the corresponding data-item of db
   "
   [e]
   (if (and (== (.getModifiers e) java.awt.event.InputEvent/CTRL_MASK)
@@ -89,16 +90,23 @@
       data-item-widget
       )))
 
+(defn make-tab-footer
+  [data]
+  (ss/text :text " tags?.. "
+           ;:listen [:action #(footer-listener-keyreleased %)]
+           :editable? true
+           ;:multi-line? true
+           ))
+
+
 (defn- make-tab
   [data t]
   (let [bDel (make-tab-delete-button data)
-        ;bSave (make-tab-save-button data)
         wMain (make-tab-main-panel data)
-        wFooter (ss/text " tags?.. ")
+        wFooter (make-tab-footer data)
         p (ss/border-panel
            :north bDel
            :center wMain
-           ;;:east bSave
            :south wFooter)]
     p))
   

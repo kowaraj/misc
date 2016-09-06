@@ -1,30 +1,37 @@
 (ns vexx.view.view
-  (:require [seesaw.core :as ss]
-            [seesaw.dev  :as ssd]
-            [seesaw.mig  :as ssm]
-            [seesaw.bind :as b]
-            [vexx.view.listbox :as v-lb]
+  (:require
+   [seesaw.core :as ss]
+   [seesaw.dev  :as ssd]
+   [seesaw.mig  :as ssm]
+   [seesaw.bind :as b]
 
-            [vexx.model.model-db :as m-db]
-            [vexx.model.model-list :as m-xl]
-            [vexx.model.model-list]
-            [vexx.model.data-item]
-
-            [vexx.controller.controller :as vc ]
-            [vexx.controller.controller-listbox :as c-lb ]
-            [vexx.controller.db-json :as vc-db ]))
+   [vexx.view.listbox :as v-lb]
+   [vexx.view.tags :as v-tags]
+   
+   [vexx.model.model-db :as m-db]
+   [vexx.model.model-list :as m-xl]
+   [vexx.model.model-list]
+   [vexx.model.data-item]
+   
+   [vexx.controller.controller :as vc ]
+   [vexx.controller.controller-listbox :as c-lb ]
+   [vexx.controller.db-json :as vc-db ]
+   ))
 
 (comment 
 (ns vexx.view.view
   (:require
-   [vexx.controller.controller]
-   [vexx.controller.controller-listbox]
-   [vexx.controller.db-json]
-   [vexx.model.model-db]
-   [vexx.model.model-list]
+   [vexx.view.listbox :as v-lb]
+   [vexx.view.tags :as v-tags]
+   
+   [vexx.model.model-db :as m-db]
+   [vexx.model.model-list :as m-xl]
    [vexx.model.data-item]
-   [vexx.view.listbox]
-   [vexx.view.tpane]
+   
+   [vexx.controller.controller :as vc ]
+   [vexx.controller.controller-listbox :as c-lb ]
+   [vexx.controller.db-json :as vc-db ]
+
    :reload))
 )
 ;(def x (create-view))
@@ -44,6 +51,14 @@
         w-text-in (.getSource e)
         new-el (ss/text w-text-in)]
     (vc/textin-listener-keytyped ch new-el)))
+
+(defn listener-tfsearch-keytyped
+  [e]
+  (let [ch (.getKeyChar e)
+        w-tf-search (.getSource e)
+        tags-string (ss/text w-tf-search)]
+    (vc/tfsearch-listener-keytyped ch tags-string)))
+
 
 (defn listener-button-save
   [e]
@@ -73,8 +88,9 @@
   (let [p (ss/select root [:#panel])
         text-log (ss/select root [:#text-log])
         xl (ss/select p [:#xlist])
-        xt (ss/select p [:#xtext])
+        tf-tags (ss/select p [:#tf-tags])
         text-in (ss/select p [:#text-in])
+        tf-search (ss/select p [:#tf-search])
         tpane (ss/select root [:#tpane])
         bsave (ss/select root [:#buttonSave])
         bload (ss/select root [:#buttonLoad])
@@ -82,12 +98,14 @@
     (vc/init-controller)
     (c-lb/add-watch-listbox xl)
     (vc/add-watch-textlog text-log)
-    (v-lb/add-behavior xl tpane)
+    (v-lb/add-behavior xl tpane tf-tags)
     ;; (ss/listen xl
     ;;            :selection #(xl/listener-xlist-selection % tpane)
     ;;            :key-released #(xl/listener-xlist-keyreleased % tpane))
     (ss/listen text-in
                :key-typed listener-textin-keytyped)
+    (ss/listen tf-search
+               :key-typed listener-tfsearch-keytyped)
     (ss/listen bsave
                :action listener-button-save)
     (ss/listen bload
@@ -96,7 +114,6 @@
                :key-released listener-tpane-keyreleased
                :focus-gained listener-tpane-focuslost)
     root))
-
 
 (defn make-content
   []
@@ -109,13 +126,11 @@
                                  [(ss/combobox :id :stroke :class :style
                                                :model [1 2 3 5 8 13 21]) "wrap"]
                                  [(ss/text :id :text-in
-                                           :text "input" :editable? true :columns 30) "span"]
+                                           :text "new item" :editable? true :columns 30) "span"]
+                                 [(ss/text :id :tf-search
+                                           :text "search by ..." :editable? true :columns 30) "span"]
                                  (v-lb/make-listbox)
-                                 ;; [(ss/listbox :id :xlist :size [400 :by 400]
-                                 ;;              :model (vc/get-listbox-data)) "span"]
-                                 [(ss/text :id :xtext
-                                           :text "Hi Mom!!" :editable? true :columns 30
-                                           :multi-line? :true :rows 2) "wrap"]
+                                 (v-tags/make-textfield)
                                  ])
         rp (ss/tabbed-panel :id :tpane
                             :placement :top
@@ -146,8 +161,3 @@
         (ss/show!))
     f))
 ;(def x (create-view))
-
-
-
-
-

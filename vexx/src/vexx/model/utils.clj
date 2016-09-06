@@ -20,11 +20,13 @@
   "Make item to be added to db: {:i-name ... :i-content ...}"
   [& {:keys [id
              name
-             data]
-      :or {data []}}
+             data
+             tags]
+      :or {data []
+           tags nil}}
    ]
   (let [item-name (transform-s2k name)
-        item-content {:id id :data data}
+        item-content {:id id :data data :tags tags}
         ]
     {:i-name item-name
      :i-content item-content}))

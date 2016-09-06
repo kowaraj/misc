@@ -18,9 +18,14 @@
 
 (defn- make-list-model
   [items]
-  (let [model (javax.swing.DefaultListModel.)]
-    (doseq [item items] (.addElement model item))
-    model))
+  (if (not (empty? items))
+    (let [model (javax.swing.DefaultListModel.)]
+      (doseq [item items] (.addElement model item))
+      model)
+    (let [model (javax.swing.DefaultListModel.)]
+      model)))
+;(empty? false)
+
 
 (defn add-watch-listbox
   [lb]
