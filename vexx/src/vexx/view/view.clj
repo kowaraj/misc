@@ -154,6 +154,7 @@
    :content (make-content)))
 
 (defn create-view []
+  (m-db/backup-db)
   (let [f (make-frame)]
     (-> f
         add-behavior

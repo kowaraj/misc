@@ -19,6 +19,17 @@
 ;(save-to-file)
 ;@vm/db
 
+
+(defn backup-db []
+  (let [data-json (json/write-str @m-db/db)
+        date-time (.format (java.text.SimpleDateFormat. "yyyyMMdd_HHmm") (java.util.Date.))
+        filename (clojure.string/join "_" [db-filename date-time])
+        ]
+    (println "fn = " filename)
+    (spit filename data-json)))
+;(clojure.string/join "_" ["asdf" "qwer"])
+;(backup-db)
+
 ;(ch/parse-string (ch/generate-string x))
 ;; (defn ch-save-to-file []
 ;;   (let [data-json (ch/generate-string  @vm/db  {:pretty true})]
