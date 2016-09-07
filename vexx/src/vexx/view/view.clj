@@ -125,11 +125,14 @@
                                  [(ss/toggle :id :pencil  :class :tool :text "Pencil" )]
                                  [(ss/combobox :id :stroke :class :style
                                                :model [1 2 3 5 8 13 21]) "wrap"]
+                                 ["New item:" "split, span, gaptop 10"]
                                  [(ss/text :id :text-in
-                                           :text "new item" :editable? true :columns 30) "span"]
+                                           :text "" :editable? true :columns 30) "span"]
+                                 ["Search by tags:" "split, gaptop 10"]
                                  [(ss/text :id :tf-search
-                                           :text "search by ..." :editable? true :columns 30) "span"]
+                                           :text "" :editable? true :columns 30) "span"]
                                  (v-lb/make-listbox)
+                                 ["Tags:" "split, gaptop 10"]
                                  (v-tags/make-textfield)
                                  ])
         rp (ss/tabbed-panel :id :tpane
@@ -154,7 +157,8 @@
    :content (make-content)))
 
 (defn create-view []
-  (m-db/backup-db)
+  (vc-db/backup-db)
+  (vc-db/load-from-file)
   (let [f (make-frame)]
     (-> f
         add-behavior
@@ -162,3 +166,5 @@
         (ss/show!))
     f))
 ;(def x (create-view))
+
+

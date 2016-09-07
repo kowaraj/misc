@@ -10,7 +10,7 @@
    [vexx.model.data-item :as m-di]
    [vexx.model.utils :as m-u]
    [vexx.model.search :as m-search]
-   [vexx.controller.db-json :as cj]
+   [vexx.controller.db-json :as vc-db ]
 
    [clojure.string :as str]
 
@@ -26,11 +26,11 @@
    tags - list of strings, tags to search
   "
   [item tags]
-  (println "--- item: " item ", tags = " tags)
+  (println "SEARCH: item: " item ", for tags: " tags)
   (if-let [item-tags-str (:tags ((keyword item) @m-db/db))]
     (let [item-tags (str/split item-tags-str #",")]
-      (println "--- set of item-tags   = " (set item-tags))
-      (println "--- set of search-tags = " (set tags))
+      (println "SET of item's tags:    " (set item-tags))
+      (println "SET of tags to search: " (set tags))
       (= (clojure.set/intersection (set item-tags) (set tags)) (set tags)))
     false))
 ;;(item-contains-tags? "2" '("tag1" "tag2"))
@@ -48,6 +48,9 @@
   [items]
   (let [tags-str @m-search/mode-search
         tags (str/split tags-str #",")]
+    (println "-----------------------------------------")
+    (println "SEARCH: items: " items ", for tags: " tags)
+    (println "---")
     (filter #(item-contains-tags? % tags) items)))
 
 ;; (filter #(item-contains-tags? % '("tag1")) '("1" "2" "3"))
@@ -86,16 +89,13 @@
 
 (defn- db-watcher
   "
-  Watcher - to update the content of listbox when:
-   - db changed
-   - went to search mode
+  Watcher - when db changed:
+   - update the content of listbox
+   - save db to file
   "
   [_ _ _ new-state]
-  (dosync (ref-set m-l/list-data (m-db/get-items-by-name))))
-  ;; (if @m-search/mode-search
-  ;;   (dosync (ref-set m-l/list-data (search-result (m-db/get-items-by-name))))
-  ;;   (dosync (ref-set m-l/list-data (m-db/get-items-by-name)))))
-
+  (vc-db/save-to-file) ; save to file 
+  (dosync (ref-set m-l/list-data (m-db/get-items-by-name)))) ; update the list
 
 (defn add-watch-db  [ ]  (add-watch m-db/db nil db-watcher))
 

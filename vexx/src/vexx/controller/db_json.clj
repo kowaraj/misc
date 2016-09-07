@@ -13,6 +13,7 @@
 ;(load-from-file)
 ;@vm/db
 
+
 (defn save-to-file []
   (let [data-json (json/write-str @m-db/db)]
     (spit db-filename data-json)))
