@@ -127,10 +127,10 @@
                                                :model [1 2 3 5 8 13 21]) "wrap"]
                                  ["New item:" "split, span, gaptop 10"]
                                  [(ss/text :id :text-in
-                                           :text "" :editable? true :columns 30) "span"]
+                                           :text "" :editable? true :columns 28) "span, wrap"]
                                  ["Search by tags:" "split, gaptop 10"]
                                  [(ss/text :id :tf-search
-                                           :text "" :editable? true :columns 30) "span"]
+                                           :text "" :editable? true :columns 25) "span, wrap"]
                                  (v-lb/make-listbox)
                                  ["Tags:" "split, gaptop 10"]
                                  (v-tags/make-textfield)
@@ -147,7 +147,7 @@
      (ss/left-right-split lp rp)
      (ss/text :id :text-log
               :text "Logging.." :editable? true :columns 10
-              :multi-line? true :wrap-lines? true :rows 10)
+              :multi-line? true :wrap-lines? true :rows 3)
      )))
 
 (defn make-frame []
