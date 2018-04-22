@@ -1,0 +1,89 @@
+Installing the Tools
+Prepackaged Linux distributions contain the major networking applications and util- itiesalongwithacoherentsetofsamplefiles.Theonlycaseinwhichyoumighthave to obtain and install new utilities is when you install a new kernel release. Because they occasionally involve changes in the kernel networking layer, you will need to update the basic configuration tools. This update at least involves recompiling, but sometimes you may also be required to obtain the latest set of binaries. These bina- ries are available at their official home site at ftp://ftp.inka.de/pub/comp/Linux/ networking/NetTools/, packaged in an archive called net-tools-XXX.tar.gz, where XXX is the version number.
+If you want to compile and install the standard TCP/IP network applications your- self, you can obtain the sources from most Linux FTP servers. All modern Linux dis- tributions include a fairly comprehensive range of TCP/IP network applications, such as World Wide Web browsers, Telnet and FTP programs, and other network applicationssuchastalk.Ifyoudofindsomethingthatyouneedtocompileyour- self, the chances are good that it will compile under Linux from source quite easily if you follow the instructions included in the source package.
+Understanding the /proc Filesystem | 43
+ This is the Title of the Book, eMatter Edition
+http://hitpb://owwowk.frseehpduf-bo.ockso.cmom/ Copyright © 2007 O’Reilly & Associates, Inc. All rights reserved.
+                      
+ Setting the Hostname
+Most, if not all, network applications rely on you to set the local host’s name to some reasonablevalue.Thissettingisusuallymadeduringthebootprocedurebyexecut- ing the hostname command. To set the hostname to name, enter:
+# hostname name
+Itiscommonpracticetousetheunqualifiedhostnamewithoutspecifyingthe domain name. For instance, if we had a site called the Virtual Brewery (an imaginary but typical small network used in several chapters of this book) a host might be called vale.vbrew.com or vlager.vbrew.com. These are their official fully qualified domain names (FQDNs). Their local hostnames would be the first component of the name, such as vale. However, because the local hostname is frequently used to look up the host’s IP address, you have to make sure that the resolver library is able to look up the host’s IP address. This usually means that you have to enter the name in /etc/hosts.
+Some people suggest using the domainname command to set the kernel’s idea of a domainnametotheremainingpartoftheFQDN.Thiswayyoucouldcombinethe output from hostname and domainname to get the FQDN again. However, this is at best only half correct. domainname is generally used to set the host’s NIS domain, which may be entirely different from the DNS domain to which your host belongs. Instead, to ensure that the short form of your hostname is resolvable with all recent versions of the hostname command, either add it as an entry in your local Domain Name Server or place the fully qualified domain name in the /etc/hosts file. You may then use the --fqdn argument to the hostname command, and it will print the fully qualified domain name.
+Assigning IP Addresses
+If you configure the networking software on your host for standalone operation, you can safely skip this section, because the only IP address you will need is for the loop- back interface, which is always 127.0.0.1.
+Things are a little more complicated with real networks such as Ethernets. If you wanttoconnectyourhosttoanexistingnetwork,youhavetoaskitsadministrators to give you an IP address on this network, though this is not always the case. Many networks now have a system of dynamically assigned IPs called Dynamic Host Con- figuration Protocol (DHCP), which we will discuss in the next section. When setting up a network all by yourself, you have to assign IP addresses by hand or by configur- ingaDHCPserver.IfyouhaveamachineconnecteddirectlytotheInternet,youwill need to obtain an IP address from your ISP, DSL provider, or cable network.
+44 | Chapter 4: Configuring TCP/IP Networking
+ This is the Title of the Book, eMatter Edition
+http://hitpb://owwowk.frseehpduf-bo.ockso.cmom/ Copyright © 2007 O’Reilly & Associates, Inc. All rights reserved.
+                      
+ Hosts within a local network usually share addresses from the same logical IP net- work,meaningthatthefirstoctetsoftheirIPaddressesareusuallythesame.Ifyou have several physical networks, you have to either assign them different network numbers,orusesubnettingtosplityourIPaddressrangeintoseveralsubnetworks. Subnetting will be revisited in the “Creating Subnets” section later in this chapter.
+If your network is not connected to the Internet or will use network address transla- tion to connect, you are free to choose any legal network address. Just make sure no packets from your internal network escape to the real Internet. To make sure no harm can be done even if packets do escape, you should use one of the network num- bers reserved for private use. The Internet Assigned Numbers Authority (IANA) has set aside several network numbers from classes A, B, and C that you can use without registering. These addresses are valid only within your private network and are not routed between real Internet sites. The numbers are defined by RFC 1918 and are listed in Table 2-1 in Chapter 2. Note that the second and third blocks contain 16 and 256 networks, respectively.
+Pickingyouraddressesfromoneofthesenetworknumbersisnotonlyusefulfornet- works completely unconnected to the Internet; you can still implement restricted access to the Internet using a single host as a gateway. To your local network, the gateway is accessible by its internal IP address, while the outside world knows it by an officially registered address (assigned to you by your provider). We come back to this concept in connection with the IP masquerade facility in Chapter 9.
+Throughout the remainder of the book, we will assume that the brewery’s network manager uses a class B network number, say 172.16.0.0. Of course, a class C net- work number would definitely suffice to accommodate both the brewery’s and the winery’s networks. We’ll use a class B network here for the sake of simplicity; it will makethesubnettingexamplesinthenextsectionofthischapteralittlemoreintui- tive.
+Using DHCP to Obtain an IP Address
+Many networks now use the Dynamic Host Configuration Protocol (DHCP). This protocol runs on network layer two and listens for DHCP requests. The DHCP serverhasapredefinedlistingofIPaddressassignedbythenetworkadministrator, which can be assigned to users. When the DHCP receives a request for an IP address, itrepliesbyissuingaDHCPlease.TheleasemeansthattheIPaddressisassignedto therequestingclientforapredeterminedamountoftime.Busynetworksoftenset the lease for a fixed number of hours to prevent the use of an address by an idle machine. Some networks set the threshold as low as two hours. Smaller networks may wish to set the DHCP lease times to a longer value, perhaps a day, or even a week. The value is entirely up to the network administrator and should be based on network usage.
+Understanding the /proc Filesystem | 45
+ This is the Title of the Book, eMatter Edition
+http://hitpb://owwowk.frseehpduf-bo.ockso.cmom/ Copyright © 2007 O’Reilly & Associates, Inc. All rights reserved.
+                      
+ To request a DHCP lease on a network, you will need to have the dhcpcd software. Thelatestversionofthesoftwarecanbeobtainedbyvisitingitshomesitehttp:// www.phystech.com/download/dhcpcd.html. There you will find the latest versions of thesoftwareaswellassupportingdocumentation.ManymodernLinuxdistribu- tions will come with this software preinstalled and will even allow you to configure your interfaces with DHCP during the initial setup and configuration of the system.
+ObtaininganIPaddressviaDHCPissimpleandisaccomplishedbyissuingthefol- lowing command:
+     vlager#  dhcpcd eth0
+     vlager#
+The daemon will at this point, reconfigure your eth0 interface, not only assigning an IP address, but also properly configuring the subnetting. Many DHCP servers will also provide default route and DNS information. In the case of the latter, your /etc/ resolv.conf file will be rewritten with the updated DNS server information. If for some reason you do not want the daemon to rewrite your resolv.conf file, you can specify -R on the command line. There are a number of additional command-line options available for dhcpcd, which may be needed in some environments. For a list of these, please contact the dhcpcd manpage. The resolv.conf file will be discussed in greater detail in the chapter on DNS.
+Running a DHCP server
+With larger, more dynamic networks, DHCP is essential. However, in order for this service to be offered, the clients must receive their IP address from a DHCP server. While a number of routers, firewalls, and other network devices will offer this func- tionality,anetworkadministratormaywishtoconsiderusingaLinuxmachineto provide it. Linux DHCP servers tend to provide a greater flexibility with their config- uration options. There are a number of DHCP servers available, but one of the more popular and better recommended offerings comes from the ISC and can be found at ftp://ftp.isc.org/isc/dhcp/. The configuration and installation of this is very standard and uses the well-known automake configuration script. When the software has been compiled and installed, you are ready to begin configuration.
+First, though, you need to make sure that your network interfaces are configured for multicast support. This is most easily checked by using the ifconfig command:
+ticktock root # ifconfig
+eth0
+Link encap:Ethernet  HWaddr C0:FF:EE:C0:FF:EE
+inet addr:172.16.1.1  Bcast:172.16.1.255  Mask:255.255.255.0
+UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+RX packets:80272 errors:0 dropped:0 overruns:0 frame:0
+TX packets:55339 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:100
+RX bytes:8522502 (8.1 Mb)  TX bytes:9203192 (8.7 Mb)
+Interrupt:10 Base address:0x4000
+Configuring TCP/IP Networking
+ 46 |
+Chapter 4:
+This is the Title of the Book, eMatter Edition
+http://hitpb://owwowk.frseehpduf-bo.ockso.cmom/ Copyright © 2007 O’Reilly & Associates, Inc. All rights reserved.
+                      
+ If you don’t see MULTICAST specified in the output, you need to reconfigure your ker- nel to support network multicast. The likelihood of this is slim because most kernel configurations contain this as a default option.
+Now you’re ready to write a dhcpd.conf file. A sample dhcpd.conf file looks like this:
+     # Sample DHCP Server Configuration
+     option domain-name "vbrew.com";
+     option domain-name-servers ns1.vbrew.com, ns2.vbrew.com;
+     default-lease-time 1600;
+     max-lease-time 7200;
+     log-facility local7;
+     # This is a very basic subnet declaration.
+     subnet 172.16.1.0 netmask 255.255.255.0 {
+       range 172.16.1.10 172.16.1.50;
+       option routers router1.vbrew.com;
+     }
+This configuration will create which will assign addresses on the 172.16.1.0 net- work. It can assign a total of 40 IP addresses from 172.16.1.10 to 172.16.1.50. The option routers and domain-name-servers commands allow you to set the default router and DNS servers for the clients.
+Here’s a brief listing of some of the more useful DHCP server configuration options:
+option domain-name
+Between quotes, you have the ability to specify the domain name for your net- work. This isn’t necessary, but may be useful to speed up local name lookups.
+option domain-name-servers
+While considered optional, in most cases it is not. This is where the IP addresses or the FQDN domain name servers are listed.
+default-lease-time
+When a host asks for a lease and does not request a specific amount of time, this value, in seconds, is assigned.
+max-lease-time
+This option specifies the maximum amount of time that will be assigned as a lease.
+fixed-address
+The fixed address option lets you assign a fixed IP address to specific clients. This option is generally paired with the MAC address filtering options.
+hardware Ethernet
+With this option, network administrators can specify which MAC addresses will receive IP address allocations. This can be used to secure a DHCP range, or can be used to pair MAC addresses with specific IP addresses.
+Understanding the /proc Filesystem | 47
+ This is the Title of the Book, eMatter Edition
+http://hitpb://owwowk.frseehpduf-bo.ockso.cmom/ Copyright © 2007 O’Reilly & Associates, Inc. All rights reserved.
+                      
+The DHCP server can use the client MAC address as a method to restrict or assign IP addresses. This type of configuration might be necessary in higher security environ- ments where only known machines are to be assigned addresses. The following example shows how the DHCP server can assign a specific address to a host based on its MAC address, also important to note is that the range directive can be used here as well:
+     host vale {
+       hardware ethernet 0:0f:d0:ee:ag:4e;
+     fixed-address 172.16.1.55;
+     }
