@@ -14,7 +14,7 @@ module Pmf =
     ;;
 
     let add ht k = 
-      Format.printf "Add %s\n" k;
+      (* Format.printf "Add %s\n" k; *)
       Hashtbl.replace ht k ((prob ht k) +. 1.0);
     ;;
 
@@ -25,6 +25,12 @@ module Pmf =
           Hashtbl.replace ht k ((prob ht k) /. sum )) 
         ht ; 
     ;;
+
+    let mult ht k likelihood =
+      let prior = prob ht k in 
+      Hashtbl.replace ht k (prior *. likelihood)
+    ;;
+      
 
     let print_string ht = 
       Hashtbl.iter (fun k v -> Format.printf "%s => %f\n" k v) ht;;
