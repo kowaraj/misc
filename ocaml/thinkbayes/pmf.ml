@@ -1,10 +1,9 @@
 module Pmf = 
   struct
     type t = (string, float) Hashtbl.t;;
-    let empty () = Hashtbl.create 10;;
-    let ht_string () = Hashtbl.create 10;;
+    let ht () = Hashtbl.create 10;;
               
-    let f ht d x = 
+    let set ht d x = 
       Hashtbl.add ht d x;;
 
     let prob ht d =
