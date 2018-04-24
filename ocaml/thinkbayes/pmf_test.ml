@@ -3,8 +3,7 @@ open Str
 
 let ht = Pmf.empty ();;
 (* let l = [1;2;3;4;5;6]
- * and f elem = Pmf.f ht 1 0.2 in
- *     List.iter f l;; *)
+ * and f elem = Pmf.f ht 1 0.2 in List.iter f l;; *)
 
 #load "str.cma";;
 
@@ -16,7 +15,6 @@ try
     print_endline line;
     let ws = Str.split(Str.regexp " +") line in
     List.iter (fun w -> Pmf.add ht w) ws;
-    
   done;
   close_in ic
 with e ->
@@ -26,15 +24,6 @@ with e ->
 
 Pmf.print_string ht;;
 Pmf.normalize ht;;
-
-let normalize ht = 
-  let sum = Hashtbl.fold (fun k d acc -> acc +. d) ht 0.0 in
-  Hashtbl.iter 
-    (fun k d -> 
-      Hashtbl.replace ht k ((get_count ht k) /. sum )) 
-    ht ; 
-;;
-
-normalize ht;;
 Pmf.print_string ht;;
 
+Pmf.prob ht "the";;
