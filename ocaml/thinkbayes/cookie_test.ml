@@ -1,11 +1,8 @@
 open Cookie
 
-let hypos = ["Bowl1"; "Bowl2"; "Bowl3"];;
-let pmf  = Cookie.cookie hypos;;
+let hypos = ["Bowl1"; "Bowl2"] (*; "Bowl3"];;*)
+let pmf  = Cookie.cookie hypos;; (* Fill and Normalize *)
 Pmf.print_string pmf;;
-
-Pmf.set ht "Bowl1" 0.5;;
-Pmf.set ht "Bowl2" 0.5;;
 
 
 Pmf.mult ht "Bowl1" 0.75;;
