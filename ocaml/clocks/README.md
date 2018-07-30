@@ -1,9 +1,9 @@
-#### Three clocks running in parallel threads. Using Lwt.
+#### Lwt + OCaml. Three clocks running in parallel threads.
 
-###### To compile
+###### To compile clocks.ml
 
 ocamlfind ocamlc -package lwt.unix -package Graphics  ./clocks.ml  -linkpkg -o test
 
-###### To run in an Emacs buffer
+###### To run it in an Emacs buffer
 
-(See lwt_try2.ml)
+(see: "lwt_try2.ml")
