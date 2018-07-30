@@ -1,34 +1,29 @@
 open Pmf
-
-(* pmf = Pmf()
- * for x in [1,2,3,4,5,6]:
- *     pmf.Set(x, 1/6.0) *)
+open Str
 
 let ht = Pmf.empty ();;
-let l = [1;2;3;4;5;6];;
-let f elem =
-  Pmf.f ht 1 0.2
-    in
-    List.iter f l
-;;
+(* let l = [1;2;3;4;5;6]
+ * and f elem = Pmf.f ht 1 0.2 in List.iter f l;; *)
 
+#load "str.cma";;
 
-Pmf.print_int ht;;
-
-
-let fn = "text.txt"
-
-let ic = open_in fn in 
+let ic = open_in fn 
+and fn = "text.txt" in 
 try
-  let line = input_line ic in
   while true do
+    let line = input_line ic in
     print_endline line;
-    flush stdout;
+    let ws = Str.split(Str.regexp " +") line in
+    List.iter (fun w -> Pmf.add ht w) ws;
   done;
   close_in ic
 with e ->
   close_in_noerr ic;
-  raise e
+  (* raise e *)
 ;;
 
+Pmf.print_string ht;;
+Pmf.normalize ht;;
+Pmf.print_string ht;;
 
+Pmf.prob ht "the";;

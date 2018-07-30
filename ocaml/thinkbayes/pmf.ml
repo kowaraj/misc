@@ -1,20 +1,42 @@
 module Pmf = 
   struct
-    type t = (string, int) Hashtbl.t;;
-    let empty () = Hashtbl.create 10;;
-    let ht_string () = Hashtbl.create 10;;
+    type t = (string, float) Hashtbl.t;;
+    let ht () = Hashtbl.create 10;;
               
-    let f ht d x = 
+    let set ht d x = 
       Hashtbl.add ht d x;;
 
-    let add ht d = 
-      let cnt = (Hashtbl.find_opt ht d) in 
-      Hashtbl.add ht d (cnt + 1);;
+    let prob ht d =
+      try 
+        (Hashtbl.find ht d);
+      with e ->
+        0.0
+    ;;
+
+    let add ht k = 
+      (* Format.printf "Add %s\n" k; *)
+      Hashtbl.replace ht k ((prob ht k) +. 1.0);
+    ;;
+
+    let normalize ht = 
+      let sum = Hashtbl.fold (fun k d acc -> acc +. d) ht 0.0 in
+      Hashtbl.iter 
+        (fun k d -> 
+          Hashtbl.replace ht k ((prob ht k) /. sum )) 
+        ht ; 
+    ;;
+
+    let mult ht k likelihood =
+      let prior = prob ht k in 
+      Hashtbl.replace ht k (prior *. likelihood)
+    ;;
+      
 
     let print_string ht = 
-      Hashtbl.iter (fun k v -> Format.printf "%s\n" k) ht;;
-    let print_int ht = 
+      Hashtbl.iter (fun k v -> Format.printf "%s => %f\n" k v) ht;;
+    let print_float ht = 
       Hashtbl.iter (fun k v -> Format.printf "%d => %f\n" k v) ht;;
+
     (* Hashtbl.fold (fun k v acc -> (k, v) :: acc) ht [];; *)
     (* (fun h -> Hashtbl.fold (fun k v acc -> (k, v) :: acc) h []) ht;;(\*@@ Pmf.empty ();;*\) *)
 
