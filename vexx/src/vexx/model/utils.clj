@@ -1,8 +1,4 @@
-(ns vexx.model.utils
-  ;; (:require
-  ;;  [vexx.model.xlist :as m-xl]
-  ;;  [vexx.model.item :as m-i] )
-   )
+(ns vexx.model.utils)
 
 (defn transform-s2k
   "From string to keyword"
@@ -16,20 +12,28 @@
   (name k))
 
 
-(defn make-item
-  "Make item to be added to db: {:i-name ... :i-content ...}"
-  [& {:keys [id
-             name
-             data
-             tags]
-      :or {data []
-           tags nil}}
-   ]
-  (let [item-name (transform-s2k name)
-        item-content {:id id :data data :tags tags}
-        ]
-    {:i-name item-name
-     :i-content item-content}))
+(defn make-db
+  "Make default empty db"
+  []
+  {:mems {}
+   :info "no info available"}
+  )
+
+(defn make-mem
+  "Make item to be added to db. Single record dict:  {name content}"
+  [a-name]
+  (let [mem-name (transform-s2k a-name)
+        mem-content {:path (data/current-path) ; to define parent and kids
+                     :from [] ;list of links from other mems
+                     :to [] ;;list of links to
+                     :data { ;list of this mem's data
+                            :name-of-tab1 {:type "type-of-tab"
+                                           :content "content of tab"
+                                           }
+                            :name-of-tab2 {}
+                            }
+                     } ]
+    {mem-name mem-content}))
 
 
 (defn make-data-item

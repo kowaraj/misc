@@ -1,9 +1,11 @@
 (ns vexx.model.search
   (:require
-   ;; [vexx.model.utils :as m-u]
-   [vexx.model.search :as m-search]
-   )
-  )
+   [vexx.model.debug :as dbg]
+   [vexx.model.utils :as u]
 
-(def mode-search (ref ""))
+   [vexx.model.data :as data]
+   ))
 
+(defn search-itemname-in-path
+  [item-name path]
+  nil)
