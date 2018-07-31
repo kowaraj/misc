@@ -1,0 +1,1 @@
+ocamlfind opt -linkpkg read_stdin.ml && ./a.out

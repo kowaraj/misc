@@ -1,0 +1,1 @@
+ocamlfind opt -linkpkg -package lwt.unix read_stdin_lwt.ml && ./a.out
