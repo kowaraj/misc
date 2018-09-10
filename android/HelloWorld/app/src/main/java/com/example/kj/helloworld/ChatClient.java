@@ -36,71 +36,10 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
     EditText messageText;
     ListView messageList;
     MyAdapter mAdapter = null;
-    ArrayList<Feeling> feelings = null;
-    List<Feeling> listOfFeelings = null;
+    Data data = null;
 
     Context mContext;
-
-    public class Data {
-
-        private ArrayList<Feeling> data;
-
-        public Data()
-        {
-            data = new ArrayList<Feeling>();
-        }
-
-        public Data(String json_str)
-        {
-            fromJson(json_str);
-        }
-
-        // setters
-
-        public void fromJson(String json_str)
-        {
-            Feeling[] array = jsonStringToArray(json_str);
-            fromArray(array);
-        }
-
-        public void fromArray(Feeling[] array)
-        {
-            data = new ArrayList<Feeling>(Arrays.asList(array));
-        }
-
-        // getters
-
-        public ArrayList<Feeling> asArrayList()
-        {
-            return data;
-        }
-
-        public String asJsonString()
-        {
-            return arrayListToJsonString(data);
-        }
-
-        // converters
-
-        public Feeling[] jsonStringToArray(String json_str)
-        {
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            Gson gson = gsonBuilder.create();
-            Feeling[] fs_array = gson.fromJson(json_str, Feeling[].class);
-            return fs_array;
-        }
-
-        public String arrayListToJsonString(ArrayList<Feeling> fs)
-        {
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            Gson gson = gsonBuilder.create();
-            Feeling[] fs_array = fs.toArray(new Feeling[0]);
-            String json_str = gson.toJson(fs_array, Feeling[].class);
-            return json_str;
-
-        }
-
-    }
+    StorageAccess sa;
 
 
     @Override
@@ -115,37 +54,21 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
         messageText = (EditText) findViewById(R.id.messageText);
 
-        //////////// read the file
-        try {
 
-            InputStream ins;
-            BufferedReader in;
-
-            ins = mContext.getAssets().open("feelings.json");
-
-            in = new BufferedReader(new InputStreamReader(ins));
-            String readLine;
-            StringBuffer buf = new StringBuffer();
-            while ((readLine = in.readLine()) != null) {
-                buf.append(readLine);
-            }
-            String infoString = buf.toString();
-            processFeelingsInfo(infoString);
-
-            if (null != in) {
-                in.close();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // TODO
 
         messageList = findViewById(R.id.messageList);
 
-        feelings = Data.asArrayList(); //new ArrayList<Feeling>(listOfFeelings); //.to //new ArrayList<Feeling>();
-
-        mAdapter = new MyAdapter(this, feelings);
+        sa = new StorageAccess(mContext);
+        String json_str = sa.loadData();
+        if ((json_str == null) || (json_str.length()==0)) {
+            AssetsAccess aa = new AssetsAccess(mContext);
+            json_str = aa.get();
+            data = new Data(json_str);
+            sa.storeData(json_str);
+        } else {
+            data = new Data(json_str);
+        }
+        mAdapter = new MyAdapter(this, data.get());
 
         messageList.removeAllViewsInLayout();
         messageList.setAdapter(mAdapter);
@@ -159,11 +82,17 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
             case R.id.bSend:
 
                 String fString = messageText.getText().toString();
+
                 // If the message is not empty string
                 if (!fString.equals("")) {
                     Feeling f = new Feeling(fString, "Seligman", new Date(), 2);
-                    feelings.add(f);
-                    MainActivity.listOfFeelingsUpdated.add(f);
+                    data.addItem(f);
+
+
+                    //TODO move to a proper place (eg: onDestroy?)
+                    sa.storeData(data.asJsonString());
+
+
                     mAdapter.notifyDataSetChanged();
                     f = null;
                     messageText.setText("");
@@ -175,12 +104,4 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    private void __processFeelingsInfo(String infoString)
-    {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-
-        listOfFeelings = new ArrayList<Feeling>();
-        listOfFeelings = Arrays.asList(gson.fromJson(infoString, Feeling[].class));
-    }
 }

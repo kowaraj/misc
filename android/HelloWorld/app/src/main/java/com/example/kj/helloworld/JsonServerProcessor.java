@@ -45,12 +45,15 @@ public class JsonServerProcessor extends AsyncTask<String, Void, Integer>
         }
 
         @Override
-        protected Integer doInBackground(String... strings) {
+        protected Integer doInBackground(String... strings)
+        {
+            StorageAccess sa = new StorageAccess(mContext);
 
             if (strings[0] == "read") {
-                String json_str = readJsonServer();
+                sa.storeData(readJsonServer());
             } else {
-                String json_str;
+                String json_str = sa.loadData();
+
                 writeJsonServer(json_str);
             }
             return 0;
@@ -68,8 +71,8 @@ public class JsonServerProcessor extends AsyncTask<String, Void, Integer>
             progressDialog.dismiss();
         }
 
-    private void writeJsonServer() {
-
+    public Integer writeJsonServer(String json_str)
+    {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni != null && ni.isConnected()) {
@@ -80,12 +83,6 @@ public class JsonServerProcessor extends AsyncTask<String, Void, Integer>
                 DataOutputStream dos;
                 DataInputStream dis;
 
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                Gson gson = gsonBuilder.create();
-
-                //Type founderListType = new TypeToken<ArrayList<Feeling>>(){}.getType();
-                //String jstr = gson.toJson(listOfFeelingsUpdated, founderListType);
-
                 URL url = new URL(Constants.JSON_URL_UPDATE);
                 huc = (HttpURLConnection) url.openConnection();
                 huc.setDoInput(true);
@@ -95,7 +92,7 @@ public class JsonServerProcessor extends AsyncTask<String, Void, Integer>
 
                 huc.setRequestProperty("Content-Type", "application/json");
                 huc.setRequestProperty("Accept", "application/json");
-                huc.setRequestProperty("Content-Length", ""+jstr.getBytes().length);
+                huc.setRequestProperty("Content-Length", ""+json_str.getBytes().length);
                 huc.setConnectTimeout(15000);
                 huc.setRequestProperty("charset", "utf-8");
                 huc.setInstanceFollowRedirects(false);
@@ -103,22 +100,22 @@ public class JsonServerProcessor extends AsyncTask<String, Void, Integer>
 
 
                 dos = new DataOutputStream(huc.getOutputStream());
-                dos.write(jstr.getBytes());
+                dos.write(json_str.getBytes());
                 dos.flush();
                 dos.close();
 
                 int stat = huc.getResponseCode();
                 BufferedInputStream in;
                 if (stat == 200) {
-                    in = new BufferedInputStream(huc.getInputStream());
-                    String response = convertIsToStr(in);
+                    //in = new BufferedInputStream(huc.getInputStream());
+                    //String response = convertIsToStr(in);
                     //TextView tv = tv.findViewById();
                     //tv.setText("res="+stat);
 
                 }
                 huc.disconnect();
 
-                return;
+                return stat;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -127,9 +124,10 @@ public class JsonServerProcessor extends AsyncTask<String, Void, Integer>
         } else {
             // no connection
         }
+        return -1;
     }
 
-    private String readJsonServer()
+    public String readJsonServer()
     {
         String response = null;
 

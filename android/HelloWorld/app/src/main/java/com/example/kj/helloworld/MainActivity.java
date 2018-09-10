@@ -82,18 +82,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etFeeling = (EditText) findViewById(R.id.etFeeling);
         String strFeeling = etFeeling.getText().toString();
 
-        getSystemService
 
         switch (view.getId()) {
             case R.id.bWriteServer:
             {
-                JsonServerProcessor jsp = new JsonServerProcessor();
+                JsonServerProcessor jsp = new JsonServerProcessor(mContext);
                 jsp.execute("write");
                 break;
             }
             case R.id.bReadServer:
             {
-                JsonServerProcessor jsp = new JsonServerProcessor();
+                JsonServerProcessor jsp = new JsonServerProcessor(mContext);
                 jsp.execute("read");
                 break;
             }
