@@ -1,5 +1,7 @@
 package com.example.kj.lexithymia;
 
+import android.support.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,15 +11,19 @@ public class Feeling {
     public String group;
     public Date date;
     public Integer value;
+    public Integer id;
+    public String type;
 
     public Feeling() {
     }
 
     public Feeling(String name, String group, Date date, Integer value) {
+        this.id = 2;
         this.name = name;
         this.group = group;
         this.date = date;
         this.value = value;
+        this.type = "feelings";
     }
 
     public String getDate() {
@@ -31,5 +37,4 @@ public class Feeling {
             date = new Date();
         return sdf.format(date);
     }
-
 }

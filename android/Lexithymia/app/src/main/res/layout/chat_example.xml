@@ -115,6 +115,20 @@
                 android:textOff="Anxiety"
                 android:textOn="Anxious"
                 android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.none"
+                android:hint="in your body"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="-"
+                android:textOn="-"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -135,16 +149,42 @@
                 android:textSize="8sp" />
 
             <ToggleButton
-                android:id="@+id/tbc17"
+                android:id="@+id/tbe7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:background="@drawable/my_togglebutton"
-                android:contentDescription="SH.Worried"
+                android:contentDescription="EXTRA.Sleepy"
                 android:minHeight="20dp"
                 android:text="ToggleButton"
-                android:textOff="-"
-                android:textOn="-"
+                android:textOff="Sleepy"
+                android:textOn="Sleepy"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.Hungry"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Hungry"
+                android:textOn="Hungry"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.Horny"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Horny"
+                android:textOn="Horny"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
@@ -311,7 +351,7 @@
                 android:minHeight="45dp"
                 android:text="ToggleButton"
                 android:textOff="Detached"
-                android:textOn="Bored"
+                android:textOn="Detached"
                 android:textSize="12sp" />
 
             <ToggleButton

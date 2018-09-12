@@ -9,7 +9,7 @@ public class Constants {
     //    public static final String SERVER = "http://ec2-34-244-223-173.eu-west-1.compute.amazonaws.com:3000/";
     public static final String SERVER = "http://34.244.223.173:3000/";
     public static final String JSON_URL = SERVER + "feelings";
-    public static final String JSON_URL_UPDATE = SERVER + "feelingsUpdated";
+    public static final String JSON_URL_UPDATE = SERVER + "feelings";
 
     public class PERMA {
         public static final String P = "positive, P";
@@ -52,10 +52,17 @@ public class Constants {
     }
 
     public class EXTRA {
+        // physical problems
         public static final String Pain = "pain, in pain";
         public static final String Sick = "sick, sick";
         public static final String Tired = "tired, tired";
+        // phychiatry
         public static final String Worry = "worry, worried";
         public static final String Anxiety = "anxiety, anxious";
+        public static final String dummy = "-,-";
+        // need for basic stuff
+        public static final String Sleepy = "sleepy, sleepy";
+        public static final String Hungry = "hungry, hungry";
+        public static final String Horny = "horny, horny";
     }
 }

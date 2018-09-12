@@ -111,6 +111,10 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         toggleButtonIDs.add(R.id.tbe3);
         toggleButtonIDs.add(R.id.tbe4);
         toggleButtonIDs.add(R.id.tbe5);
+        toggleButtonIDs.add(R.id.tbe6);
+        toggleButtonIDs.add(R.id.tbe7);
+        toggleButtonIDs.add(R.id.tbe8);
+        toggleButtonIDs.add(R.id.tbe9);
 
         for (Integer tbid: toggleButtonIDs) {
             ((ToggleButton) findViewById(tbid)).setOnClickListener(this);
