@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/l4"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_below="@+id/l2"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingTop="3dp"
+        tools:ignore="NotSibling">
+
+        <LinearLayout
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="2dp">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:text="MODIFIERS"
+                android:textAlignment="center"
+                android:textColor="#aaf"
+                android:textSize="8sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.Pain"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Pain"
+                android:textOn="In pain"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.Sick"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Sick"
+                android:textOn="Sick"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.Tired"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Tired"
+                android:textOn="Tired"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:text=".."
+                android:textAlignment="center"
+                android:textColor="#aaf"
+                android:textSize="8sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.Worry"
+                android:hint="in your head"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Worry"
+                android:textOn="Worried"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbe5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EXTRA.Anxiety"
+                android:hint="in your body"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Anxiety"
+                android:textOn="Anxious"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:text=".."
+                android:textAlignment="center"
+                android:textColor="#aaf"
+                android:textSize="8sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="SH.Worried"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="-"
+                android:textOn="-"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bSend"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add" />
+
+        <EditText
+            android:id="@+id/messageText"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:hint="Describe your emotions here,\nor choose some from below..."
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:minHeight="60dp"
+            android:singleLine="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_below="@+id/l1"
+        android:layout_marginLeft="2dp"
+        android:orientation="horizontal"
+        android:paddingLeft="3dp"
+        android:paddingTop="3dp"
+        tools:ignore="NotSibling">
+
+        <LinearLayout
+            android:id="@+id/l2v1"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left|center_horizontal"
+            android:orientation="vertical"
+            tools:ignore="NotSibling">
+
+            <ToggleButton
+                android:id="@+id/tba1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA.P"
+                android:minHeight="45dp"
+                android:text="PERMA.P"
+                android:textOff="P."
+                android:textOn="P."
+                android:textSize="20sp" />
+
+            <ToggleButton
+                android:id="@+id/tba2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA.E"
+                android:minHeight="45dp"
+                android:textOff="E."
+                android:textOn="E."
+                android:textSize="20sp" />
+
+            android:text="PERMA.E"
+            android:textOff="E."
+            android:textOn="E." />
+
+            <ToggleButton
+                android:id="@+id/tba3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA.R"
+                android:minHeight="45dp"
+                android:text="PERMA.R"
+                android:textOff="R."
+                android:textOn="R."
+                android:textSize="20sp" />
+
+            <ToggleButton
+                android:id="@+id/tba4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA.M"
+                android:minHeight="45dp"
+                android:text="ToggleButton"
+                android:textOff="M."
+                android:textOn="M."
+                android:textSize="20sp" />
+
+            <ToggleButton
+                android:id="@+id/tba5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA.A"
+                android:minHeight="45dp"
+                android:text="ToggleButton"
+                android:textOff="A."
+                android:textOn="A."
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:text="PERMA"
+                android:textAlignment="center"
+                android:textColor="#aaf"
+                android:textSize="8sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l2v4"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left|center_horizontal"
+            android:gravity="top"
+            android:orientation="vertical"
+            tools:ignore="NotSibling">
+
+            <ToggleButton
+                android:id="@+id/tbd1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA_OPP.N"
+                android:minHeight="45dp"
+                android:textOff="Negative"
+                android:textOn="Negative"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbd2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA_OPP.D"
+                android:minHeight="45dp"
+                android:text="ToggleButton"
+                android:textOff="Detached"
+                android:textOn="Bored"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbd3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA_OPP.L"
+                android:minHeight="45dp"
+                android:text="ToggleButton"
+                android:textOff="Lonely"
+                android:textOn="Lonely"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbd4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA_OPP.U"
+                android:minHeight="45dp"
+                android:text="ToggleButton"
+                android:textOff="useless"
+                android:textOn="useless"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbd5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="PERMA_OPP.F"
+                android:minHeight="45dp"
+                android:text="ToggleButton"
+                android:textOff="Failure"
+                android:textOn="Failed"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:text="anti - PERMA"
+                android:textAlignment="center"
+                android:textColor="#aaf"
+                android:textSize="8sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l2v3"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical"
+            tools:ignore="NotSibling">
+
+            <ToggleButton
+                android:id="@+id/tbc1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Amusement"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Amused"
+                android:textOn="Amused"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Contentment"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Content"
+                android:textOn="Content"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Embarrassment"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Embarrassed"
+                android:textOn="Embarrassed"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Excitement"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Excited"
+                android:textOn="Excited"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Guilt"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Giulty"
+                android:textOn="Guilty"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Pride"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Proud"
+                android:textOn="Proud"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Relief"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Relieved"
+                android:textOn="Relieved"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Satisfaction"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Satisfied"
+                android:textOn="Satisfied"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Shame"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Ashamed"
+                android:textOn="Ashamed"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Pleasure"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Pleasure"
+                android:textOn="Pleased"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/tbc11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="EKMAN_EXT.Pain"
+                android:minHeight="20dp"
+                android:text="ToggleButton"
+                android:textOff="Pain"
+                android:textOn="In pain"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l2v2"
+            android:layout_width="95dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|right"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="0dp"
+            android:orientation="vertical"
+            tools:ignore="NotSibling">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:text="F.A.C.S."
+                android:textAlignment="center"
+                android:textColor="#aaf"
+                android:textSize="10sp" />
+
+            <ToggleButton
+                android:id="@+id/tbb1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="FACS.AU_6_12"
+                android:minHeight="30dp"
+                android:text="ToggleButton"
+                android:textOff="Happy"
+                android:textOn="Happy" />
+
+            <ToggleButton
+                android:id="@+id/tbb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="FACS.AU_1_4_15"
+                android:minHeight="30dp"
+                android:text="ToggleButton"
+                android:textOff="Sad"
+                android:textOn="Sad" />
+
+            <ToggleButton
+                android:id="@+id/tbb3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="FACS.AU_1_2_5B_26"
+                android:minHeight="30dp"
+                android:text="ToggleButton"
+                android:textOff="Surprised"
+                android:textOn="Surprised" />
+
+            <ToggleButton
+                android:id="@+id/tbb4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="FACS.AU_1_2_4_5_7_20_26"
+                android:minHeight="30dp"
+                android:text="ToggleButton"
+                android:textOff="Scared"
+                android:textOn="Scared" />
+
+            <ToggleButton
+                android:id="@+id/tbb5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="FACS.AU_4_5_7_16"
+                android:minHeight="30dp"
+                android:text="ToggleButton"
+                android:textOff="Angry"
+                android:textOn="Angry" />
+
+            <ToggleButton
+                android:id="@+id/tbb6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="FACS.AU_9_15_16"
+                android:minHeight="30dp"
+                android:text="ToggleButton"
+                android:textOff="DIsgusted"
+                android:textOn="Disgusted" />
+
+            <ToggleButton
+                android:id="@+id/tbb7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/my_togglebutton"
+                android:contentDescription="FACS.AU_R12A_R14A"
+                android:minHeight="30dp"
+                android:text="ToggleButton"
+                android:textOff="Scornful"
+                android:textOn="Contempt" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF"
+                android:text="Find this in others"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l3"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="370dp"
+        android:layout_below="@+id/l1"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/messageList"
+            android:layout_width="365dp"
+            android:layout_height="150dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Lexithymia</string>
+    <string-array name="friends">
+        <item>John</item>
+        <item>Bill</item>
+        <item>Tom</item>
+    </string-array>
+    <string-array name="feelings">
+        <item>Anger</item>
+        <item>Anxiety</item>
+        <item>Tired</item>
+    </string-array>
+    <string-array name="feelingsGroup">
+        <item>Seligman</item>
+        <item>Ekman</item>
+        <item>You</item>
+    </string-array>
+</resources>
