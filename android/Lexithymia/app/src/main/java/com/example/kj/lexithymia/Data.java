@@ -67,7 +67,7 @@ public class Data {
     // modifiers
 
     public void addItem(Feeling f) {
-        data.add(f);
+        data.add(0, f);
     }
 
 }

@@ -1,13 +1,28 @@
 package com.example.kj.lexithymia;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.lang.reflect.Array;
@@ -16,12 +31,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by kapashnin on 02.09.18.
  */
 
-public class ChatClient extends AppCompatActivity implements View.OnClickListener {
+public class ChatClient extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, View.OnTouchListener {
 
     Button sendButton;
     EditText messageText;
@@ -32,6 +48,8 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
     Context mContext;
     StorageAccess sa;
     ArrayList<Integer> toggleButtonIDs;
+    Spinner spinner1;
+
 
 
     @Override
@@ -39,10 +57,27 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_example);
 
+        getSupportActionBar().setTitle("Your Activity Title"); // for set actionbar title
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // for add back arrow in action bar
+
         mContext = this;
+
+//        spinner1 = (Spinner) findViewById(R.id.spinner1);
+//        List<String> list = new ArrayList<String>();
+//        list.add("list 1");
+//        list.add("list 2");
+//        list.add("list 3");
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_spinner_item, list);
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner1.setAdapter(dataAdapter);
+
+
+
 
         sendButton = (Button) findViewById(R.id.bSend);
         sendButton.setOnClickListener(this);
+
 
         messageText = (EditText) findViewById(R.id.messageText);
 
@@ -64,6 +99,7 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
         messageList.removeAllViewsInLayout();
         messageList.setAdapter(mAdapter);
+
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -120,8 +156,61 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
             ((ToggleButton) findViewById(tbid)).setOnClickListener(this);
         }
 
+
+        LinearLayout l1 = (LinearLayout) findViewById(R.id.l2v1);
+        LinearLayout l2 = (LinearLayout) findViewById(R.id.l2v2);
+        LinearLayout l3 = (LinearLayout) findViewById(R.id.l2v3);
+        LinearLayout l4 = (LinearLayout) findViewById(R.id.l2v4);
+        RelativeLayout l5 = (RelativeLayout) findViewById(R.id.lo_plutchik);
+        l1.setVisibility(View.GONE);
+        l2.setVisibility(View.GONE);
+        l3.setVisibility(View.GONE);
+        l4.setVisibility(View.GONE);
+        l5.setVisibility(View.VISIBLE);
+
+        ImageView image  = (ImageView) findViewById(R.id.plutchik);
+        //image.setImageResource(R.drawable.plutchik_my_crop);
+        image.setOnTouchListener(this);
+
+
     }
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.my_menu, menu);
+        MenuItem i = menu.findItem(R.id.spinner1);
+        Spinner s = (Spinner) i.getActionView();
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.feelingsGroup, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        s.setAdapter(adapter);
+        s.setOnItemSelectedListener(this);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.spinner1:
+                // User chose the "Settings" item, show the app settings UI...
+                spinner1.showContextMenu();
+                return true;
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 
 
     public void onToggle(int _id)
@@ -140,7 +229,7 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
             Field f = Class.forName(classFullName).getField(fieldName);
             //Class<?> t = f.getType();
             String fv_full = (String) f.get(null);
-            fv = fv_full.split(",")[0];
+            fv = fv_full.split(",")[1];
             //Constructor<?> cons = c.getConstructor(String.class);
             //Object object = cons.newInstance("P");
 
@@ -170,10 +259,23 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
     }
 
+
+
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
+//            case R.id.bSend2:
+//                LinearLayout l1 = (LinearLayout) findViewById(R.id.l2v1);
+//                LinearLayout l4 = (LinearLayout) findViewById(R.id.l2v4);
+//                if(l1.getVisibility() == View.GONE) {
+//                    l1.setVisibility(View.VISIBLE);
+//                    l4.setVisibility(View.GONE);
+//                } else {
+//                    l4.setVisibility(View.VISIBLE);
+//                    l1.setVisibility(View.GONE);
+//                }
+//                break;
             case R.id.bSend:
 
                 // get the input
@@ -207,4 +309,163 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String item = adapterView.getItemAtPosition(i).toString();
+        LinearLayout l1 = (LinearLayout) findViewById(R.id.l2v1);
+        LinearLayout l2 = (LinearLayout) findViewById(R.id.l2v2);
+        LinearLayout l3 = (LinearLayout) findViewById(R.id.l2v3);
+        LinearLayout l4 = (LinearLayout) findViewById(R.id.l2v4);
+        RelativeLayout l5 = (RelativeLayout) findViewById(R.id.lo_plutchik);
+
+        if (item.toString().equals("Seligman")) {
+            l1.setVisibility(View.VISIBLE);
+            l4.setVisibility(View.VISIBLE);
+            l3.setVisibility(View.GONE);
+            l2.setVisibility(View.GONE);
+            l5.setVisibility(View.GONE);
+        } else if (item.toString().equals("Ekman")) {
+            l2.setVisibility(View.VISIBLE);
+            l3.setVisibility(View.VISIBLE);
+            l1.setVisibility(View.GONE);
+            l4.setVisibility(View.GONE);
+            l5.setVisibility(View.GONE);
+        } else if (item.toString().equals("Plutchik")) {
+            l2.setVisibility(View.GONE);
+            l3.setVisibility(View.GONE);
+            l1.setVisibility(View.GONE);
+            l4.setVisibility(View.GONE);
+            l5.setVisibility(View.VISIBLE);
+
+        } else if (item.toString().equals("You")) {
+            l2.setVisibility(View.VISIBLE);
+            l3.setVisibility(View.VISIBLE);
+            l1.setVisibility(View.GONE);
+            l4.setVisibility(View.GONE);
+        }
+        else {
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private static String To00Hex(int value) {
+        String hex = "00".concat(Integer.toHexString(value));
+        return hex.substring(hex.length()-2, hex.length());
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        int a = motionEvent.getAction();
+        switch (a) {
+            case MotionEvent.ACTION_DOWN:
+
+                TextView tx = findViewById(R.id.textViewX);
+                TextView ty = findViewById(R.id.textViewY);
+                int x = (int)motionEvent.getX(); // in pixels
+                int y = (int)motionEvent.getY();
+                tx.setText("x= "+x);
+                ty.setText("y= "+y);
+
+                ImageView i = findViewById(R.id.plutchik);
+                i.setDrawingCacheEnabled(true);
+                Bitmap b = Bitmap.createBitmap(i.getDrawingCache());
+                i.setDrawingCacheEnabled(false);
+                int p = b.getPixel(x,y);
+                String hexColor = String.format("#%08X", (0xffFFFFFF & p));
+
+                int vw_dp = i.getWidth(); //size in dp (of view)
+                int vh_dp = i.getHeight();
+
+                float dp = getResources().getDisplayMetrics().density;
+
+                Bitmap b_fg = BitmapFactory.decodeResource(getResources(), R.drawable.plutchik_my_v6);
+                int bw_fg_dp = b_fg.getWidth(); //size in dp
+                int bh_fg_dp = b_fg.getHeight();
+                int bw_fg_px = (int) (bw_fg_dp/dp); //size in pixels
+                int bh_fg_px = (int) (bh_fg_dp/dp);
+
+                float ratio_view_w = ((float)bw_fg_dp)/vw_dp; // >1, if view is smaller
+                float ratio_view_h = ((float)bh_fg_dp)/vh_dp; // >1, if view is smaller
+
+                Bitmap b_bg = BitmapFactory.decodeResource(getResources(), R.drawable.plutchik_my_v6_background);
+                int bw_bg_dp = b_bg.getWidth(); //size in dp (of background)
+                int bh_bg_dp = b_bg.getHeight();
+                int bw_bg_px = (int)(bw_bg_dp/dp); //size in pixels (of background)
+                int bh_bg_px = (int)(bh_bg_dp/dp);
+
+                int x_bg = (int) (x * ratio_view_w);
+                int y_bg = (int) (y * ratio_view_h);
+                int p_bg = b_bg.getPixel(x_bg, y_bg);
+                String hexColor_bg = String.format("#%08X", (0xffFFFFFF & p_bg));
+
+                //int[] ps_bg = new int[bw_bg_px * bh_bg_px];
+                //b_bg.getPixels(ps_bg, 0, bw_bg_px, x, y, bw_bg_px, bh_bg_px);
+
+
+                TextView tv_color_bg = findViewById(R.id.textViewXbg);
+                tv_color_bg.setText("bg color : "+hexColor_bg);
+
+                String ca = To00Hex(Color.alpha(p));
+                String cr = To00Hex(Color.red(p));
+                String cg = To00Hex(Color.green(p));
+                String cb = To00Hex(Color.blue(p));
+                StringBuilder str = new StringBuilder("#");
+                str.append(ca);
+                str.append(cr);
+                str.append(cg);
+                str.append(cb);
+
+                ToggleButton tbColor = findViewById(R.id.tbColor);
+                tbColor.setBackgroundColor(Color.parseColor(str.toString()));
+                tbColor.setChecked(true);
+
+                String ca_bg = To00Hex(Color.alpha(p_bg));
+                String cr_bg = To00Hex(Color.red(p_bg));
+                String cg_bg = To00Hex(Color.green(p_bg));
+                String cb_bg = To00Hex(Color.blue(p_bg));
+                StringBuilder str_bg = new StringBuilder("#");
+                str_bg.append(ca_bg);
+                str_bg.append(cr_bg);
+                str_bg.append(cg_bg);
+                str_bg.append(cb_bg);
+
+                ToggleButton tbColor_bg = findViewById(R.id.tbColor2);
+                String[] cs = decodeColor(str_bg.toString());
+                tbColor_bg.setBackgroundColor(Color.parseColor(cs[1]));
+                tbColor_bg.setTextOn(cs[2]);
+                tbColor_bg.setChecked(true);
+
+        }
+        return false;
+    }
+
+    public String[] decodeColor(String colorCode)
+    {
+        if (colorCode.equalsIgnoreCase(Constants.PLUTCHIK.Annoyance[0])) {
+            return Constants.PLUTCHIK.Annoyance;
+
+        }
+        if (colorCode.equalsIgnoreCase(Constants.PLUTCHIK.Anger[0])) {
+            return Constants.PLUTCHIK.Anger;
+
+        }
+        if (colorCode.equalsIgnoreCase(Constants.PLUTCHIK.Rage[0])) {
+            return Constants.PLUTCHIK.Rage;
+
+        }
+        return Constants.PLUTCHIK.Contemp;
+
+
+    }
 }
