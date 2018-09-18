@@ -435,10 +435,35 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
                 //tb2.setChecked(true);
                 //tb2.setTextOn(emo[0]);
 
+                LinearLayout lo_res = findViewById(R.id.lo_plutchik_status);
+                LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
+                String[][] diads = Constants.PLUTCHIK.getDiads(emo_name);
+                for (String[] diad : diads) {
+                    addButton(lo_res, "+ "+diad[3], diad[1]);
+                    addButton(lo_res2, diad[0], diad[2]);
+                }
+
                 return true;
 
         }
         return false;
+    }
+
+    public void addButton(LinearLayout lo, String n, String c) {
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(250,30);
+        lp.setMargins(0,2,0,2);
+        ToggleButton tg = new ToggleButton(this);
+        tg.setText(n);
+        tg.setTextOff(n);
+        tg.setTextOn(n);
+        tg.setChecked(true);
+        tg.setBackgroundColor(Color.parseColor(c));
+        tg.setTextSize(8f);
+        tg.setPadding(0,0,0,0);
+        tg.setLayoutParams(lp);
+        lo.addView(tg);
+
     }
 
     public String pixelToColorString(int p) {

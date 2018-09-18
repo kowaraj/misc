@@ -1,6 +1,7 @@
 package com.example.kj.lexithymia;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -88,13 +89,40 @@ public class Constants {
         public static final String[] Contemp        = {"#FE080000", "#aaFFa7a7", "Contempt",       "Anger",        "Disgust"};
 
 
-        public static final String getDiad(String e1, String e2) {
-            int x = Arrays.asList(BasicEmotions).indexOf(e1);
-            int y = Arrays.asList(BasicEmotions).indexOf(e2);
+        public static final String[][] getDiads (String emo1) {
+            ArrayList<String[]> ds = new ArrayList<String[]>();
+            for (String emo2 : BasicEmotions) {
+                if (emo2.equals(HEADER_NAME))
+                    continue;
+
+                String d = getDiad(emo1, emo2);
+                if (d.equals("x")) {
+                    d = getDiad(emo2, emo1);
+                }
+                if (d.equals("."))
+                    continue;
+                if (d.equals("-"))
+                    continue;
+
+                String emo1_color = getColorOfEmotion(emo1);
+                String emo2_color = getColorOfEmotion(emo2);
+
+                String[] d_colored = {d, emo1_color, emo2_color, emo2};
+                ds.add(d_colored);
+            }
+            String ds_str[][] = new String[ds.size()][ds.size()];
+            ds_str = ds.toArray(ds_str);
+            return ds_str;
+        }
+
+        public static final String getDiad(String emo1, String emo2) {
+            int x = Arrays.asList(BasicEmotions).indexOf(emo1);
+            int y = Arrays.asList(BasicEmotions).indexOf(emo2);
             return Diads[x][y];
         }
 
-        private static final String[] BasicEmotions = {"Emotions: ", "Anger", "Anticipation", "Joy", "Trust", "Fear", "Surprise", "Sadness", "Disgust"};
+        private static final String HEADER_NAME = "BasicEmotionsList";
+        private static final String[] BasicEmotions = {HEADER_NAME, "Anger", "Anticipation", "Joy", "Trust", "Fear", "Surprise", "Sadness", "Disgust"};
 
         private static final String[][] Diads   = {
                 //{"Emotions"       , "Anger"            , "Anticipation"    , "Joy"             , "Trust"           , "Fear"            , "Surprise"        , "Sadness"         , "Disgust"       },
@@ -114,7 +142,7 @@ public class Constants {
         public static final String R2 = "#FF880000"; // format: aRGB (Red, Dark)
 
         public static final String B0 = "#FFABABFF"; // format: aRGB (Blue)
-        public static final String B1 = "#FFFF0000"; // format: aRGB (Blue)
+        public static final String B1 = "#FF0000FF"; // format: aRGB (Blue)
         public static final String B2 = "#FF000081"; // format: aRGB (Blue, Dark)
 
         public static final String G0 = "#FF9BFF9B"; // format: aRGB (Green)
@@ -214,6 +242,15 @@ public class Constants {
             }
             return null;
         }
+        public static String getColorOfEmotion(String emo) {
+
+            for (String[] s: EmotionsColor) {
+                if (s[0].equals(emo))
+                    return s[2];
+            }
+            return null;
+        }
+
         public static String getEmotionName(String[] cs){
             return cs[0];
         }
@@ -225,19 +262,4 @@ public class Constants {
         }
     }
 
-
-
-
-
-    // more?
-    // anticipating....
-    // thoughtful...
-    // annoyed, irritated...
-
-    // add the timer!
-
-
-    // raw description of a emotion -> to the basises
-
-    //
 }
