@@ -412,60 +412,46 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
                 //int[] ps_bg = new int[bw_bg_px * bh_bg_px];
                 //b_bg.getPixels(ps_bg, 0, bw_bg_px, x, y, bw_bg_px, bh_bg_px);
 
+                ToggleButton tb1 = findViewById(R.id.tbColor);
+                ToggleButton tb2 = findViewById(R.id.tbColor2);
+                TextView tv1 = findViewById(R.id.textViewXbg);
 
-                TextView tv_color_bg = findViewById(R.id.textViewXbg);
-                tv_color_bg.setText("bg color : "+hexColor_bg);
+                tv1.setText("" + hexColor_bg);
 
-                String ca = To00Hex(Color.alpha(p));
-                String cr = To00Hex(Color.red(p));
-                String cg = To00Hex(Color.green(p));
-                String cb = To00Hex(Color.blue(p));
-                StringBuilder str = new StringBuilder("#");
-                str.append(ca);
-                str.append(cr);
-                str.append(cg);
-                str.append(cb);
+                //String cs = pixelToColorString(p);
+                String cs_bg = pixelToColorString(p_bg);
+                String[] emo = Constants.PLUTCHIK.getEmotionFromColor(cs_bg);
+                if (emo == null)
+                    return false;
+                String emo_name = Constants.PLUTCHIK.getEmotionName(emo);
+                String emo_color = Constants.PLUTCHIK.getEmotionColor(emo);
+                String emo_color_bg = Constants.PLUTCHIK.getEmotionColorBg(emo);
 
-                ToggleButton tbColor = findViewById(R.id.tbColor);
-                tbColor.setBackgroundColor(Color.parseColor(str.toString()));
-                tbColor.setChecked(true);
+                tb1.setBackgroundColor(Color.parseColor(emo_color));
+                tb1.setTextOn(emo_name);
+                tb1.setChecked(true);
 
-                String ca_bg = To00Hex(Color.alpha(p_bg));
-                String cr_bg = To00Hex(Color.red(p_bg));
-                String cg_bg = To00Hex(Color.green(p_bg));
-                String cb_bg = To00Hex(Color.blue(p_bg));
-                StringBuilder str_bg = new StringBuilder("#");
-                str_bg.append(ca_bg);
-                str_bg.append(cr_bg);
-                str_bg.append(cg_bg);
-                str_bg.append(cb_bg);
+                //tb2.setBackgroundColor(Color.parseColor(emo[2]));
+                //tb2.setChecked(true);
+                //tb2.setTextOn(emo[0]);
 
-                ToggleButton tbColor_bg = findViewById(R.id.tbColor2);
-                String[] cs = decodeColor(str_bg.toString());
-                tbColor_bg.setBackgroundColor(Color.parseColor(cs[1]));
-                tbColor_bg.setTextOn(cs[2]);
-                tbColor_bg.setChecked(true);
+                return true;
 
         }
         return false;
     }
 
-    public String[] decodeColor(String colorCode)
-    {
-        if (colorCode.equalsIgnoreCase(Constants.PLUTCHIK.Annoyance[0])) {
-            return Constants.PLUTCHIK.Annoyance;
+    public String pixelToColorString(int p) {
 
-        }
-        if (colorCode.equalsIgnoreCase(Constants.PLUTCHIK.Anger[0])) {
-            return Constants.PLUTCHIK.Anger;
-
-        }
-        if (colorCode.equalsIgnoreCase(Constants.PLUTCHIK.Rage[0])) {
-            return Constants.PLUTCHIK.Rage;
-
-        }
-        return Constants.PLUTCHIK.Contemp;
-
-
+        String ca = To00Hex(Color.alpha(p));
+        String cr = To00Hex(Color.red(p));
+        String cg = To00Hex(Color.green(p));
+        String cb = To00Hex(Color.blue(p));
+        StringBuilder str = new StringBuilder("#");
+        str.append(ca);
+        str.append(cr);
+        str.append(cg);
+        str.append(cb);
+        return str.toString();
     }
 }

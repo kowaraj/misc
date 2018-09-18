@@ -2,6 +2,7 @@ package com.example.kj.lexithymia;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by kapashnin on 10.09.18.
@@ -78,7 +79,7 @@ public class Constants {
         public static final String[] Anticipation   = {"#FF010100", "#FF00FF00", "Anticipation",   "",             ""};
         public static final String[] Interest       = {"#FF010000", "#FF9bff9b", "Interest",       "",             ""};
 
-        public static final String[] Aggressiveness = {"#FE010000", "#aaFFa7a7", "Aggressiveness", "Anticipation", "Anger"};
+        public static final String[] Aggressiveness = {"#FE010000", "#AAFFA7A7", "Aggressiveness", "Anticipation", "Anger"};
 
         public static final String[] Rage           = {"#FF080200", "#FF880000", "Rage",           "",              ""};
         public static final String[] Anger          = {"#FF080100", "#FFFF0000", "Anger",          "",              ""};
@@ -108,27 +109,120 @@ public class Constants {
                 {"Disgust"        , "x"                , "x"               , "x"               , "x"               , "x"               , "x"               , "x"               , "."             }
         };
 
-        public static final String[][] BasicEmotionColor = {
+        public static final String R0 = "#FFFFA7A7"; // format: aRGB (Red)
+        public static final String R1 = "#FFFF0000"; // format: aRGB (Red)
+        public static final String R2 = "#FF880000"; // format: aRGB (Red, Dark)
 
+        public static final String B0 = "#FFABABFF"; // format: aRGB (Blue)
+        public static final String B1 = "#FFFF0000"; // format: aRGB (Blue)
+        public static final String B2 = "#FF000081"; // format: aRGB (Blue, Dark)
+
+        public static final String G0 = "#FF9BFF9B"; // format: aRGB (Green)
+        public static final String G1 = "#FF00FF00"; // format: aRGB (Green)
+        public static final String G2 = "#FF008A00"; // format: aRGB (Green, Dark)
+
+        public static final String E0 = "#FFCCCCCC"; // format: aRGB (grEy)
+        public static final String E1 = "#FF636363"; // format: aRGB (grEy)
+        public static final String E2 = "#FF292929"; // format: aRGB (grEy, Dark)
+
+        public static final String M0 = "#FFFFAEFF"; // format: aRGB (Magenta)
+        public static final String M1 = "#FFFF00FF"; // format: aRGB (Magenta)
+        public static final String M2 = "#FF740074"; // format: aRGB (Magenta, Dark)
+
+        public static final String C0 = "#FFB9FFFF"; // format: aRGB (Cyan)
+        public static final String C1 = "#FF00FFFF"; // format: aRGB (Cyan)
+        public static final String C2 = "#FF008181"; // format: aRGB (Cyan, Dark)
+
+        public static final String Y0 = "#FFFFFFB2"; // format: aRGB (Yellow)
+        public static final String Y1 = "#FFFFFF00"; // format: aRGB (Yellow)
+        public static final String Y2 = "#FF848400"; // format: aRGB (Yellow, Dark)
+
+        public static final String N0 = "#FFFFBB79"; // format: aRGB (oraNge)
+        public static final String N1 = "#FFFF7D00"; // format: aRGB (oraNge)
+        public static final String N2 = "#FFA45100"; // format: aRGB (oraNge, Dark)
+
+        public static final String XRB0 = "#FFD5A9D3"; // format: aRGB (R0 + B0)
+        public static final String XBE0 = "#FFBBBBE6"; // format: aRGB (B0 + E0)
+        public static final String XEM0 = "#FFE4BEE4"; // format: aRGB (E0 + M0)
+        public static final String XMC0 = "#FFDDD6FF"; // format: aRGB (M0 + C0)
+        public static final String XCY0 = "#FFDDFFD8"; // format: aRGB (C0 + Y0)
+        public static final String XYN0 = "#FFFFDB94"; // format: aRGB (Y0 + N0)
+        public static final String XNG0 = "#FFCDDD8A"; // format: aRGB (N0 + G0)
+        public static final String XGR0 = "#FFCDD3A1"; // format: aRGB (G0 + R0)
+
+
+        public static final String[][] EmotionsColor = {
 
                 {"Emotion"        , "ColorBackground"  , "Color"           , "Intense"         , "Mild"             },
 
-                {"Optimism"       , "#FE020000"        , "mix"             , "Zeal"            , "Bemusement"       }, // Intense+Mild are non-Plutchik
+                {"Vigilance"      , "#FF010200"        , G2                , ""                , ""                 },
+                {"Anticipation"   , "#FF010100"        , G1                , "Vigilance"       , "Interest"         },
+                {"Interest"       , "#FF010000"        , G0                , ""                , ""                 },
 
-                {"Vigilance"      , "#FF010200"        , "#FF008a00"       , ""                , ""                 },
-                {"Anticipation"   , "#FF010100"        , "#FF00FF00"       , "Vigilance"       , "Interest"         },
-                {"Interest"       , "#FF010000"        , "#FF9bff9b"       , ""                , ""                 },
+                {"Aggressiveness" , "#FE010000"        , XGR0              , "Domination"      , "Disfavor"         }, // Intense+Mild are non-Plutchik
 
-                {"Aggressiveness" , "#FE010000"        , "mix"             , "Domination"      , "Disfavor"         }, // Intense+Mild are non-Plutchik
+                {"Ecstasy"        , "#FF020200"        , N2                , ""                , ""                 },
+                {"Joy"            , "#FF020100"        , N1                , "Ecstasy"         , "Serenity"         },
+                {"Serenity"       , "#FF020000"        , N0                , ""                , ""                 },
 
-                {"Rage"           , "#FF080200"        , "#FF880000"       , ""                , ""                 },
-                {"Anger"          , "#FF080100"        , "#FFFF0000"       , "Rage"            , "Annoyance"        },
-                {"Annoyance"      , "#FF080000"        , "#FFFFa7a7"       , ""                , ""                 },
+                {"Optimism"       , "#FE020000"        , XNG0              , "Zeal"            , "Bemusement"       }, // Intense+Mild are non-Plutchik
 
+                {"Admiration"     , "#FF030200"        , Y2                , ""                , ""                 },
+                {"Trust"          , "#FF030100"        , Y1                , "Admiration"      , "Acceptance"       },
+                {"Acceptance"     , "#FF030000"        , Y0                , ""                , ""                 },
 
-                {"Contemp"        , "#FE080000"        , "#aaFFa7a7"       , "Hatred"          , "Impatience"       }
+                {"Love"           , "#FE030000"        , XYN0              , "Devotion"        , "Acknowledgement"  }, // Intense+Mild are non-Plutchik
+
+                {"Terror"         , "#FF040200"        , C2                , ""                , ""                 },
+                {"Fear"           , "#FF040100"        , C1                , "Terror"          , "Apprehension"     },
+                {"Apprehension"   , "#FF040000"        , C0                , ""                , ""                 },
+
+                {"Submission"     , "#FE040000"        , XCY0              , "Subservience"    , "Acquiescence"      }, // Intense+Mild are non-Plutchik
+
+                {"Amazement"      , "#FF050200"        , M2                , ""                , ""                 },
+                {"Surprise"       , "#FF050100"        , M1                , "Amazement"       , "Distraction"      },
+                {"Distraction"    , "#FF050000"        , M0                , ""                , ""                 },
+
+                {"Awe"            , "#FE050000"        , XMC0              , "Petrifaction"    , "Wariness"         }, // Intense+Mild are non-Plutchik
+
+                {"Grief"          , "#FF060200"        , E2                , ""                , ""                 },
+                {"Sadness"        , "#FF060100"        , E1                , "Grief"           , "Pensiveness"      },
+                {"Pensiveness"    , "#FF060000"        , E0                , ""                , ""                 },
+
+                {"Disapproval"    , "#FE060000"        , XEM0              , "Horror"          , "Dismay"           }, // Intense+Mild are non-Plutchik
+
+                {"Loathing"       , "#FF070200"        , B2                , ""                , ""                 },
+                {"Disgust"        , "#FF070100"        , B1                , "Loathing"        , "Boredom"          },
+                {"Boredom"        , "#FF070000"        , B0                , ""                , ""                 },
+
+                {"Remorse"        , "#FE070000"        , XBE0              , "Shame"           , "Listlessness"     }, // Intense+Mild are non-Plutchik
+
+                {"Rage"           , "#FF080200"        , R2                , ""                , ""                 },
+                {"Anger"          , "#FF080100"        , R1                , "Rage"            , "Annoyance"        },
+                {"Annoyance"      , "#FF080000"        , R0                , ""                , ""                 },
+
+                {"Contempt"       , "#FE080000"        , XRB0              , "Hatred"          , "Impatience"       }, // Intense+Mild are non-Plutchik
 
         };
+
+        public static String[] getEmotionFromColor(String colorString) {
+            String cs = colorString.toUpperCase();
+            for (String[] s: EmotionsColor) {
+                List<String> l = Arrays.asList(s);
+                if (l.contains(cs))
+                    return (String[]) l.toArray();
+            }
+            return null;
+        }
+        public static String getEmotionName(String[] cs){
+            return cs[0];
+        }
+        public static String getEmotionColor(String[] cs){
+            return cs[2];
+        }
+        public static String getEmotionColorBg(String[] cs){
+            return cs[1];
+        }
     }
 
 
