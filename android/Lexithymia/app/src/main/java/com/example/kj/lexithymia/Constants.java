@@ -88,11 +88,17 @@ public class Constants {
 
         public static final String[] Contemp        = {"#FE080000", "#aaFFa7a7", "Contempt",       "Anger",        "Disgust"};
 
-
         public static final String[][] getDiads (String emo1) {
+            return getDiads(emo1, null);
+        }
+
+        public static final String[][] getDiads (String emo1, String emoExcluded) {
             ArrayList<String[]> ds = new ArrayList<String[]>();
             for (String emo2 : BasicEmotions) {
                 if (emo2.equals(HEADER_NAME))
+                    continue;
+
+                if (emo2.equals(emoExcluded) || emo2.equals(getOpposite(emoExcluded)))
                     continue;
 
                 String d = getDiad(emo1, emo2);
@@ -178,6 +184,28 @@ public class Constants {
         public static final String XNG0 = "#FFCDDD8A"; // format: aRGB (N0 + G0)
         public static final String XGR0 = "#FFCDD3A1"; // format: aRGB (G0 + R0)
 
+
+        public static final String  getOpposite(String emo) {
+            if (emo == null)
+                return null;
+            if (emo.equalsIgnoreCase("Anger"))
+                return "Fear";
+            if (emo.equalsIgnoreCase("Anticipation"))
+                return "Surprise";
+            if (emo.equalsIgnoreCase("Joy"))
+                return "Sadness";
+            if (emo.equalsIgnoreCase("Trust"))
+                return "Disgust";
+            if (emo.equalsIgnoreCase("Disgust"))
+                return "Trust";
+            if (emo.equalsIgnoreCase("Sadness"))
+                return "Joy";
+            if (emo.equalsIgnoreCase("Surprise"))
+                return "Anticipation";
+            if (emo.equalsIgnoreCase("Fear"))
+                return "Anger";
+            return null;
+        }
 
         public static final String[][] EmotionsColor = {
 

@@ -271,7 +271,7 @@
 
                 <LinearLayout
                     android:id="@+id/lo_plutchik_status2"
-                    android:layout_width="120dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/lo_plutchik_status"
                     android:orientation="vertical"
@@ -280,7 +280,7 @@
 
                 <LinearLayout
                     android:id="@+id/lo_plutchik_status"
-                    android:layout_width="120dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/lo_plutchik_dbg"
                     android:orientation="vertical"
@@ -347,7 +347,7 @@
                 android:layout_width="340dp"
                 android:layout_height="340dp"
 
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 tools:ignore="NotSibling">
