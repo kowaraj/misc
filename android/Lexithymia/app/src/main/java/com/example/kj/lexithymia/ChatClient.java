@@ -59,12 +59,14 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
     String emoExcluded = null;
     ToggleButton tb1;
     ToggleButton tb2;
-
+    Reducer r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_example);
+
+        r = new Reducer(this);
 
         getSupportActionBar().setTitle("Your Activity Title"); // for set actionbar title
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // for add back arrow in action bar
@@ -383,16 +385,16 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
                 TextView tx = findViewById(R.id.textViewX);
                 TextView ty = findViewById(R.id.textViewY);
-                int x = (int)motionEvent.getX(); // in pixels
-                int y = (int)motionEvent.getY();
-                tx.setText("x= "+x);
-                ty.setText("y= "+y);
+                int x = (int) motionEvent.getX(); // in pixels
+                int y = (int) motionEvent.getY();
+                tx.setText("x= " + x);
+                ty.setText("y= " + y);
 
                 ImageView i = findViewById(R.id.plutchik);
                 i.setDrawingCacheEnabled(true);
                 Bitmap b = Bitmap.createBitmap(i.getDrawingCache());
                 i.setDrawingCacheEnabled(false);
-                int p = b.getPixel(x,y);
+                int p = b.getPixel(x, y);
                 String hexColor = String.format("#%08X", (0xffFFFFFF & p));
 
                 int vw_dp = i.getWidth(); //size in dp (of view)
@@ -403,17 +405,17 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
                 Bitmap b_fg = BitmapFactory.decodeResource(getResources(), R.drawable.plutchik_my_v6);
                 int bw_fg_dp = b_fg.getWidth(); //size in dp
                 int bh_fg_dp = b_fg.getHeight();
-                int bw_fg_px = (int) (bw_fg_dp/dp); //size in pixels
-                int bh_fg_px = (int) (bh_fg_dp/dp);
+                int bw_fg_px = (int) (bw_fg_dp / dp); //size in pixels
+                int bh_fg_px = (int) (bh_fg_dp / dp);
 
-                float ratio_view_w = ((float)bw_fg_dp)/vw_dp; // >1, if view is smaller
-                float ratio_view_h = ((float)bh_fg_dp)/vh_dp; // >1, if view is smaller
+                float ratio_view_w = ((float) bw_fg_dp) / vw_dp; // >1, if view is smaller
+                float ratio_view_h = ((float) bh_fg_dp) / vh_dp; // >1, if view is smaller
 
                 Bitmap b_bg = BitmapFactory.decodeResource(getResources(), R.drawable.plutchik_my_v6_background);
                 int bw_bg_dp = b_bg.getWidth(); //size in dp (of background)
                 int bh_bg_dp = b_bg.getHeight();
-                int bw_bg_px = (int)(bw_bg_dp/dp); //size in pixels (of background)
-                int bh_bg_px = (int)(bh_bg_dp/dp);
+                int bw_bg_px = (int) (bw_bg_dp / dp); //size in pixels (of background)
+                int bh_bg_px = (int) (bh_bg_dp / dp);
 
                 int x_bg = (int) (x * ratio_view_w);
                 int y_bg = (int) (y * ratio_view_h);
@@ -432,134 +434,118 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
                 String[] emo = Constants.PLUTCHIK.getEmotionFromColor(cs_bg);
                 if (emo == null)
                     return false;
+
                 String emo_name = Constants.PLUTCHIK.getEmotionName(emo);
                 String emo_color = Constants.PLUTCHIK.getEmotionColor(emo);
                 String emo_color_bg = Constants.PLUTCHIK.getEmotionColorBg(emo);
 
+                Emo e = new Emo(emo_name, emo_color);
+                r.emoPicked(e);
+                String listOfEmos = r.getEmosAsString();
+                messageText.setText(listOfEmos);
 
-                if (!tb1.isChecked()) {
-                    emoExcluded = emo_name;
-
-                    tb1.setBackgroundColor(Color.parseColor(emo_color));
-                    tb1.setText(emo_name);
-                    tb1.setTextOn(emo_name);
-                    tb1.setTextOff(emo_name);
-                    tb1.setChecked(true);
-                    tb1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v){
-                            checkIfToggled(v);
-                            onToggle2(v);
-                        }});
-
-                    LinearLayout lo_res = findViewById(R.id.lo_plutchik_status);
-                    //LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
-                    String[][] diads = Constants.PLUTCHIK.getDiads(emo_name);
-                    for (String[] diad : diads) {
-                        //addButton(lo_res, " = "+diad[0]+" (+ "+diad[3]+") ", diad[2], diad[1]);
-                        addButton(lo_res, " " + diad[0] + " ", diad[2], diad[1]);
-                        //addButton(lo_res2, diad[0], diad[2]);
-                    }
-
-                } else if (!tb2.isChecked()) {
-                    tb2.setBackgroundColor(Color.parseColor(emo_color));
-                    tb2.setText(emo_name);
-                    tb2.setTextOn(emo_name);
-                    tb2.setTextOff(emo_name);
-                    tb2.setChecked(true);
-                    tb2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v){
-                            checkIfToggled(v);
-                            onToggle2(v);
-                        }});
-
-                    LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
-                    String[][] diads = Constants.PLUTCHIK.getDiads(emo_name, emoExcluded);
-                    for (String[] diad : diads) {
-                        //addButton(lo_res, " = "+diad[0]+" (+ "+diad[3]+") ", diad[2], diad[1]);
-                        addButton(lo_res2, "" + diad[0] + "", diad[2], diad[1]);
-                        //addButton(lo_res2, diad[0], diad[2]);
-                    }
-
-                }
-
-                return true;
-
+                break;
         }
-        return false;
+        return true;
     }
 
-    public void addButton(LinearLayout lo, String n, String c1, String c2) {
-        int cc1 = Color.parseColor(c1);
-        int cc2 = Color.parseColor(c2);
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(350,50);
-        //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0,2,0,2);
-        ToggleButton tg = new ToggleButton(this);
-        tg.setHeight(20);
-        tg.setText(n);
-        tg.setTextOff(n);
-        tg.setTextOn(n);
-        tg.setChecked(true);
-        tg.setPadding(3,0,3,0);
+    public void pickedEmo1 (Emo e) {
+        String emo_name = e.name;
+        String emo_color = e.color;
 
-        Bitmap bmResult = Bitmap.createBitmap(200, 30, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmResult);
-        Paint paint = new Paint();
-        //paint.setShader(new LinearGradient(0, 0, 0, bmResult.getHeight()/2, 0xFF284560, 0xFF284060, Shader.TileMode.MIRROR));
-        //paint.setShader(new LinearGradient(0, 0, 0, bmResult.getHeight()/2, cc1, cc2, Shader.TileMode.MIRROR));
-        paint.setShader(new LinearGradient(0, 0, bmResult.getWidth()*0.9f, 0, cc1, cc2, Shader.TileMode.CLAMP));
-        canvas.drawPaint(paint);
-        //paint.setShader(new LinearGradient (0, 0, 0, bmResult.getHeight()/2, cc1, cc2, Shader.TileMode.CLAMP));
-        //paint.setShader(new LinearGradient (0, 0, 0, bmResult.getHeight()/2, cc1, cc2, Shader.TileMode.CLAMP));
-        paint.setMaskFilter(new BlurMaskFilter(3, BlurMaskFilter.Blur.NORMAL));
-        canvas.drawRect(0, 0, bmResult.getWidth(), bmResult.getHeight()/2, paint);
-
-        tg.setBackgroundDrawable(new BitmapDrawable(bmResult));
-        //tg.setBackground(ContextCompat.getDrawable(this, R.drawable.my_togglebutton3));
-        //tg.setBackgroundColor(Color.parseColor(c));
-        if (Color.luminance(Color.parseColor(c1))<0.3)
-            tg.setTextColor(Color.WHITE);
-        tg.setTextSize(8f);
-        tg.setPadding(0,0,0,0);
-        tg.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        tg.setLayoutParams(lp);
-
-        tg.setOnClickListener(new View.OnClickListener()
-        {
+        tb1.setBackgroundColor(Color.parseColor(emo_color));
+        tb1.setText(emo_name);
+        tb1.setTextOn(emo_name);
+        tb1.setTextOff(emo_name);
+        tb1.setChecked(true);
+        tb1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                // your click actions go here
-                onToggle2(v);
+            public void onClick(View v) {
+                onEmo1ButtonClick(v);
             }
         });
 
-        lo.addView(tg);
+        LinearLayout lo_res = findViewById(R.id.lo_plutchik_status);
+        r.setLayout1(lo_res);
+    }
+
+
+    public void pickedEmo2 (Emo e) {
+        String emo_name = e.name;
+        String emo_color = e.color;
+
+        tb2.setBackgroundColor(Color.parseColor(emo_color));
+        tb2.setText(emo_name);
+        tb2.setTextOn(emo_name);
+        tb2.setTextOff(emo_name);
+        tb2.setChecked(true);
+        tb2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEmo2ButtonClick(v);
+            }
+        });
+
+        LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
+        r.setLayout2(lo_res2);
+    }
+
+    public void cleanUpPickedEmos() {
 
     }
 
-    public void checkIfToggled(View v)
+
+    public void addDyadButton(LinearLayout lo, ToggleButton tb) {
+        tb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDyadButtonClick(v);
+            }
+        });
+        lo.addView(tb);
+    }
+
+
+    public void onEmo1ButtonClick(View v)
     {
-        ToggleButton tb = (ToggleButton) v;
-        if (tb.isChecked()) {
 
-            LinearLayout lo_res1 = findViewById(R.id.lo_plutchik_status);
-            lo_res1.removeAllViews();
-            LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
-            lo_res2.removeAllViews();
-            tb.setChecked(false);
-            tb.setTextOff("NOT PICKED");
-            tb.setBackgroundColor(Color.parseColor("#dddddd"));
+    }
+    public void onEmo2ButtonClick(View v)
+    {
 
-
-        }
+    }
+    public void onDyadButtonClick(View v)
+    {
 
     }
 
-    public void onToggle2(View v)
+//      public void checkIfToggled(View v)
+//    {
+//        r.
+//        ToggleButton tb = (ToggleButton) v;
+//        if (tb.isChecked()) {
+//
+//            LinearLayout lo_res1 = findViewById(R.id.lo_plutchik_status);
+//            lo_res1.removeAllViews();
+//            LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
+//            lo_res2.removeAllViews();
+//            tb.setTextOff("NOT PICKED");
+//            tb.setTextOn("NOT PICKED+");
+//            onToggle2(v);
+//            tb.setChecked(false);
+//            tb.setBackgroundColor(Color.parseColor("#dddddd"));
+//
+//        } else {
+//            onToggle2(tb);
+//
+//        }
+//
+//    }
+
+
+
+/*    public void onToggle2(View v)
     {
         ToggleButton tb = (ToggleButton) v;
         String fv = tb.getText().toString();
@@ -581,6 +567,7 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         }
 
     }
+    */
 
     public String pixelToColorString(int p) {
 

@@ -113,7 +113,7 @@ public class Constants {
                 String emo1_color = getColorOfEmotion(emo1);
                 String emo2_color = getColorOfEmotion(emo2);
 
-                String[] d_colored = {d, emo1_color, emo2_color, emo2};
+                String[] d_colored = {d, emo1, emo2, emo1_color, emo2_color};
                 ds.add(d_colored);
             }
             String ds_str[][] = new String[ds.size()][ds.size()];
@@ -134,7 +134,7 @@ public class Constants {
                 //{"Emotions"       , "Anger"            , "Anticipation"    , "Joy"             , "Trust"           , "Fear"            , "Surprise"        , "Sadness"         , "Disgust"       },
                 BasicEmotions,
                 {"Anger"          , "."                , "Aggressiveness"  , "Pride"           , "Dominance"       , "-"               , "Outrage"         , "Envy"            , "Contempt"      },
-                {"Anticipation"   , "x"                , "."               , "Optimism"        , "Fatalism"        , "Anxiety"         , "-"               , "Pessimism"       , "Anticipation"  },
+                {"Anticipation"   , "x"                , "."               , "Optimism"        , "Fatalism"        , "Anxiety"         , "-"               , "Pessimism"       , "Cynism"  },
                 {"Joy"            , "x"                , "x"               , "."               , "Love"            , "Guilt"           , "Delight"         , "-"               , "Morbidness"    },
                 {"Trust"          , "x"                , "x"               , "x"               , "."               , "Submission"      , "Curiosity"       , "Sentimentality"  , "-"             },
                 {"Fear"           , "x"                , "x"               , "x"               , "x"               , "."               , "Alarm"           , "Despair"         , "Shame"         },
