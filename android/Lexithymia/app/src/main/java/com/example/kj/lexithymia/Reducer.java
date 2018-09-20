@@ -82,7 +82,12 @@ public class Reducer {
             sb.append(d.name);
             sb.append(", ");
         }
-        return sb.substring(0, sb.length()-2).toString();
+
+        if ((sb.length() >= 2) &&
+                (sb.substring(sb.length()-2, sb.length()).equalsIgnoreCase(", ")))
+            return sb.substring(0, sb.length()-2).toString();
+        else
+            return sb.toString();
     }
 
     public void emoPicked(Emo emo)
