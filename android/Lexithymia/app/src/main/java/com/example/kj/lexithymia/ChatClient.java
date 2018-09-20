@@ -10,6 +10,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -73,7 +74,10 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
         mContext = this;
         tb1 = findViewById(R.id.tbColor);
+        //tb1.setRotation(-90);
+
         tb2 = findViewById(R.id.tbColor2);
+        //tb2.setRotation(-90);
 
 //        spinner1 = (Spinner) findViewById(R.id.spinner1);
 //        List<String> list = new ArrayList<String>();
@@ -444,10 +448,12 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
                 String listOfEmos = r.getEmosAsString();
                 messageText.setText(listOfEmos);
 
+
                 break;
         }
         return true;
     }
+
 
 
     public void pickedEmo1 (Emo e) {
@@ -455,6 +461,9 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         String emo_color = e.color;
 
         tb1.setBackgroundColor(Color.parseColor(emo_color));
+        if (Color.luminance(Color.parseColor(emo_color)) < 0.2)
+            tb1.setTextColor(Color.WHITE);
+
         tb1.setText(emo_name);
         tb1.setTextOn(emo_name);
         tb1.setTextOff(emo_name);
@@ -476,6 +485,9 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         String emo_color = e.color;
 
         tb2.setBackgroundColor(Color.parseColor(emo_color));
+        if (Color.luminance(Color.parseColor(emo_color)) < 0.2)
+            tb2.setTextColor(Color.WHITE);
+
         tb2.setText(emo_name);
         tb2.setTextOn(emo_name);
         tb2.setTextOff(emo_name);
@@ -495,6 +507,17 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
     }
 
+    public String makeVertical(String emo_name) {
+        String s = "";
+        {
+            for (int i = 0; i < emo_name.length(); i++) {
+                if (s == null)
+                    s = "";
+                s = s + String.valueOf(emo_name.charAt(i)) + "\n";
+            }
+        }
+        return s;
+    }
 
     public void addDyadButton(LinearLayout lo, ToggleButton tb) {
         tb.setOnClickListener(new View.OnClickListener() {
@@ -506,49 +529,72 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         lo.addView(tb);
     }
 
+    public void removeDyadsOfEmo1()
+    {
+        LinearLayout lo_res1 = findViewById(R.id.lo_plutchik_status);
+        lo_res1.removeAllViews();
+
+        tb1.setTextOff("NOT PICKED");
+        tb1.setTextOn("NOT PICKED+");
+        tb1.setChecked(false);
+        tb1.setBackgroundColor(Color.parseColor("#dddddd"));
+    }
+    public void removeDyadsOfEmo2()
+    {
+        LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
+        lo_res2.removeAllViews();
+
+        tb2.setTextOff("NOT PICKED");
+        tb2.setTextOn("NOT PICKED+");
+        tb2.setChecked(false);
+        tb2.setBackgroundColor(Color.parseColor("#dddddd"));
+    }
 
     public void onEmo1ButtonClick(View v)
     {
-
+        r.unpickEmo1();
+        String listOfEmos = r.getEmosAsString();
+        messageText.setText(listOfEmos);
     }
+
     public void onEmo2ButtonClick(View v)
     {
+        //tb1.setWidth(400);
 
+        LinearLayout lo = findViewById(R.id.lo_plutchik_e1);
+        lo.setRotation(-90);
+        tb1.setWidth(40);
+        tb1.setHeight(400);
+        //tb1.setRotation(-40);
+        //tb1.setRotation(-90);
+
+        return;
+
+        //r.unpickEmo2();
+        //String listOfEmos = r.getEmosAsString();
+        //messageText.setText(listOfEmos);
     }
+
     public void onDyadButtonClick(View v)
     {
 
-    }
+        ToggleButton tb = (ToggleButton) v;
+        String fv = tb.getText().toString();
 
-//      public void checkIfToggled(View v)
-//    {
-//        r.
-//        ToggleButton tb = (ToggleButton) v;
-//        if (tb.isChecked()) {
-//
-//            LinearLayout lo_res1 = findViewById(R.id.lo_plutchik_status);
-//            lo_res1.removeAllViews();
-//            LinearLayout lo_res2 = findViewById(R.id.lo_plutchik_status2);
-//            lo_res2.removeAllViews();
-//            tb.setTextOff("NOT PICKED");
-//            tb.setTextOn("NOT PICKED+");
-//            onToggle2(v);
-//            tb.setChecked(false);
-//            tb.setBackgroundColor(Color.parseColor("#dddddd"));
-//
-//        } else {
-//            onToggle2(tb);
-//
-//        }
-//
-//    }
+        if (!tb.isChecked()) {
+            tb.setChecked(false);
+            r.dyadUnpicked(fv);
+        } else {
+            tb.setChecked(true);
+            r.dyadPicked(fv);
+        }
+        messageText.setText(r.getEmosAsString());
+    }
 
 
 
 /*    public void onToggle2(View v)
     {
-        ToggleButton tb = (ToggleButton) v;
-        String fv = tb.getText().toString();
 
         boolean checked = tb.isChecked();
         String text = messageText.getText().toString();

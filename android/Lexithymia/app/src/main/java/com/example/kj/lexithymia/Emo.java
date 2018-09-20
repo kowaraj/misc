@@ -12,4 +12,8 @@ public class Emo {
         name = name_;
         color = color_;
     }
+
+    public boolean isBasic() {
+        return Constants.PLUTCHIK.isBasic(name);
+    }
 }

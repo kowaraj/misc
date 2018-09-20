@@ -11,6 +11,14 @@ public class Dyad {
     public String c1;
     public String c2;
 
+    public Dyad(String name_) {
+        name = name_;
+        e1 = "";
+        e2 = "";
+        c1 = "#FFFFFFFF";
+        c2 = "#FFFFFFFF";
+    }
+
     public Dyad(String name_, String e1_, String e2_, String c1_, String c2_) {
         name = name_;
         e1 = e1_;

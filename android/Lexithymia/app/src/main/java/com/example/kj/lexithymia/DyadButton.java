@@ -20,14 +20,14 @@ import android.widget.ToggleButton;
 public class DyadButton
 {
     private ToggleButton tg;
-    private Dyad d;
+    public Dyad d;
 
     public ToggleButton getButton()
     {
         return tg;
     }
 
-    public DyadButton(ChatClient parent, Dyad d_)
+    public DyadButton(ChatClient parent, Dyad d_, boolean gradientReversed)
     {
         d = d_;
         String n = d.name;
@@ -44,24 +44,47 @@ public class DyadButton
         tg.setText(n);
         tg.setTextOff(n);
         tg.setTextOn(n);
-        tg.setChecked(true);
+        tg.setChecked(false);
         tg.setPadding(3, 0, 3, 0);
 
-        Bitmap bmResult = Bitmap.createBitmap(200, 30, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmResult);
-        Paint paint = new Paint();
-        paint.setShader(new LinearGradient(0, 0, bmResult.getWidth() * 0.9f, 0, cc1, cc2, Shader.TileMode.CLAMP));
-        canvas.drawPaint(paint);
-        paint.setMaskFilter(new BlurMaskFilter(3, BlurMaskFilter.Blur.NORMAL));
-        canvas.drawRect(0, 0, bmResult.getWidth(), bmResult.getHeight() / 2, paint);
+        if ( gradientReversed ) {
+            Bitmap bmResult = Bitmap.createBitmap(200, 30, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bmResult);
+            Paint paint = new Paint();
+            paint.setShader(new LinearGradient(bmResult.getWidth() * 0.7f, 0, bmResult.getWidth() * 0.1f, 0, cc1, cc2, Shader.TileMode.CLAMP));
+            canvas.drawPaint(paint);
+            paint.setMaskFilter(new BlurMaskFilter(3, BlurMaskFilter.Blur.NORMAL));
+            canvas.drawRect(0, 0, bmResult.getWidth(), bmResult.getHeight() / 2, paint);
+            tg.setBackgroundDrawable(new BitmapDrawable(bmResult));
 
-        tg.setBackgroundDrawable(new BitmapDrawable(bmResult));
-        if (Color.luminance(Color.parseColor(c1)) < 0.3)
-            tg.setTextColor(Color.WHITE);
-        tg.setTextSize(8f);
-        tg.setPadding(0, 0, 0, 0);
-        tg.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        tg.setLayoutParams(lp);
+            if (Color.luminance(Color.parseColor(c1)) < 0.3)
+                tg.setTextColor(Color.WHITE);
+            tg.setTextSize(10f);
+            tg.setPadding(0, 0, 10, 0);
+            tg.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            tg.setLayoutParams(lp);
+
+        }
+        else {
+            Bitmap bmResult = Bitmap.createBitmap(200, 30, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bmResult);
+            Paint paint = new Paint();
+            paint.setShader(new LinearGradient(bmResult.getWidth() * 0.3f, 0, bmResult.getWidth() * 0.9f, 0, cc1, cc2, Shader.TileMode.CLAMP));
+            canvas.drawPaint(paint);
+            paint.setMaskFilter(new BlurMaskFilter(3, BlurMaskFilter.Blur.NORMAL));
+            canvas.drawRect(0, 0, bmResult.getWidth(), bmResult.getHeight() / 2, paint);
+            tg.setBackgroundDrawable(new BitmapDrawable(bmResult));
+
+            if (Color.luminance(Color.parseColor(c1)) < 0.3)
+                tg.setTextColor(Color.WHITE);
+            tg.setTextSize(10f);
+            tg.setPadding(10, 0, 0, 0);
+            tg.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            tg.setLayoutParams(lp);
+
+
+        }
+
 
 
 

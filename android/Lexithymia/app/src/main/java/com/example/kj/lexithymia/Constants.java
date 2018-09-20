@@ -138,7 +138,7 @@ public class Constants {
                 {"Joy"            , "x"                , "x"               , "."               , "Love"            , "Guilt"           , "Delight"         , "-"               , "Morbidness"    },
                 {"Trust"          , "x"                , "x"               , "x"               , "."               , "Submission"      , "Curiosity"       , "Sentimentality"  , "-"             },
                 {"Fear"           , "x"                , "x"               , "x"               , "x"               , "."               , "Alarm"           , "Despair"         , "Shame"         },
-                {"Surprise"       , "x"                , "x"               , "x"               , "x"               , "x"               , "."               , "Disappointment"  , "\\?"           },
+                {"Surprise"       , "x"                , "x"               , "x"               , "x"               , "x"               , "."               , "Disappointment"  , "Unbelief"           },
                 {"Sadness"        , "x"                , "x"               , "x"               , "x"               , "x"               , "x"               , "."               , "Remorse"       },
                 {"Disgust"        , "x"                , "x"               , "x"               , "x"               , "x"               , "x"               , "x"               , "."             }
         };
@@ -184,6 +184,11 @@ public class Constants {
         public static final String XNG0 = "#FFCDDD8A"; // format: aRGB (N0 + G0)
         public static final String XGR0 = "#FFCDD3A1"; // format: aRGB (G0 + R0)
 
+
+        public static final boolean isBasic(String emo) {
+            ArrayList<String> emos = new ArrayList<String>(Arrays.asList(BasicEmotions));
+            return emos.contains(emo);
+        }
 
         public static final String  getOpposite(String emo) {
             if (emo == null)
