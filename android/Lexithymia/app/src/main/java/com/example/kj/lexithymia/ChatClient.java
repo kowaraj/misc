@@ -559,20 +559,9 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
     public void onEmo2ButtonClick(View v)
     {
-        //tb1.setWidth(400);
-
-        LinearLayout lo = findViewById(R.id.lo_plutchik_e1);
-        lo.setRotation(-90);
-        tb1.setWidth(40);
-        tb1.setHeight(400);
-        //tb1.setRotation(-40);
-        //tb1.setRotation(-90);
-
-        return;
-
-        //r.unpickEmo2();
-        //String listOfEmos = r.getEmosAsString();
-        //messageText.setText(listOfEmos);
+        r.unpickEmo2();
+        String listOfEmos = r.getEmosAsString();
+        messageText.setText(listOfEmos);
     }
 
     public void onDyadButtonClick(View v)
