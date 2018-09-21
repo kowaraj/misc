@@ -58,7 +58,7 @@ public class Constants {
 
     public class EXTRA {
         // physical problems
-        public static final String Pain = "pain, in pain";
+        public static final String Pain = "pain, pain";
         public static final String Sick = "sick, sick";
         public static final String Tired = "tired, tired";
         // phychiatry

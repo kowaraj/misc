@@ -61,6 +61,7 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
     ToggleButton tb1;
     ToggleButton tb2;
     Reducer r;
+    ToggleButton loSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,9 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
 
 
+        loSwitch = findViewById(R.id.tbSwitch);
+        loSwitch.setChecked(false);
+        loSwitch.setOnClickListener(this);
 
         sendButton = (Button) findViewById(R.id.bSend);
         sendButton.setOnClickListener(this);
@@ -174,19 +178,12 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         }
 
 
-        LinearLayout l1 = (LinearLayout) findViewById(R.id.l2v1);
-        LinearLayout l2 = (LinearLayout) findViewById(R.id.l2v2);
-        LinearLayout l3 = (LinearLayout) findViewById(R.id.l2v3);
-        LinearLayout l4 = (LinearLayout) findViewById(R.id.l2v4);
-        RelativeLayout l5 = (RelativeLayout) findViewById(R.id.lo_plutchik);
-        l1.setVisibility(View.GONE);
-        l2.setVisibility(View.GONE);
-        l3.setVisibility(View.GONE);
-        l4.setVisibility(View.GONE);
-        l5.setVisibility(View.VISIBLE);
+        RelativeLayout lo_nonplutchik = (RelativeLayout) findViewById(R.id.lo_nonplutchik);
+        RelativeLayout lo_plutchik = (RelativeLayout) findViewById(R.id.lo_plutchik);
+        lo_nonplutchik.setVisibility(View.GONE);
+        lo_plutchik.setVisibility(View.VISIBLE);
 
         ImageView image  = (ImageView) findViewById(R.id.plutchik);
-        //image.setImageResource(R.drawable.plutchik_my_crop);
         image.setOnTouchListener(this);
 
 
@@ -293,6 +290,16 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 //                    l1.setVisibility(View.GONE);
 //                }
 //                break;
+            case R.id.tbSwitch:
+                ToggleButton tb = findViewById(R.id.tbSwitch);
+
+                if (tb.isChecked()) {
+                    switchMode("Seligman");
+                } else {
+                    switchMode("Plutchik");
+                }
+                break;
+
             case R.id.bSend:
 
                 // get the input
@@ -320,7 +327,7 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
                 break;
 
             default:
-                //onToggle(view.getId());
+                onToggle(view.getId());
 
                 break;
         }
@@ -334,42 +341,32 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String item = adapterView.getItemAtPosition(i).toString();
-        LinearLayout l1 = (LinearLayout) findViewById(R.id.l2v1);
-        LinearLayout l2 = (LinearLayout) findViewById(R.id.l2v2);
-        LinearLayout l3 = (LinearLayout) findViewById(R.id.l2v3);
-        LinearLayout l4 = (LinearLayout) findViewById(R.id.l2v4);
-        RelativeLayout l5 = (RelativeLayout) findViewById(R.id.lo_plutchik);
+        switchMode(item.toString());
+    }
 
-        if (item.toString().equals("Seligman")) {
-            l1.setVisibility(View.VISIBLE);
-            l4.setVisibility(View.VISIBLE);
-            l3.setVisibility(View.GONE);
-            l2.setVisibility(View.GONE);
-            l5.setVisibility(View.GONE);
-        } else if (item.toString().equals("Ekman")) {
-            l2.setVisibility(View.VISIBLE);
-            l3.setVisibility(View.VISIBLE);
-            l1.setVisibility(View.GONE);
-            l4.setVisibility(View.GONE);
-            l5.setVisibility(View.GONE);
-        } else if (item.toString().equals("Plutchik")) {
-            l2.setVisibility(View.GONE);
-            l3.setVisibility(View.GONE);
-            l1.setVisibility(View.GONE);
-            l4.setVisibility(View.GONE);
-            l5.setVisibility(View.VISIBLE);
 
-        } else if (item.toString().equals("You")) {
-            l2.setVisibility(View.VISIBLE);
-            l3.setVisibility(View.VISIBLE);
-            l1.setVisibility(View.GONE);
-            l4.setVisibility(View.GONE);
+    public void switchMode(String mode) {
+
+        RelativeLayout lo_nonp = findViewById(R.id.lo_nonplutchik);
+        RelativeLayout lo_p = findViewById(R.id.lo_plutchik);
+
+
+        if (mode.toString().equals("Seligman")) {
+            lo_nonp.setVisibility(View.VISIBLE);
+            lo_p.setVisibility(View.GONE);
+        } else if (mode.toString().equals("Ekman")) {
+
+        } else if (mode.toString().equals("Plutchik")) {
+            lo_nonp.setVisibility(View.GONE);
+            lo_p.setVisibility(View.VISIBLE);
+        } else if (mode.toString().equals("You")) {
+
         }
         else {
 
         }
-    }
 
+    }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
