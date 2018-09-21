@@ -52,9 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.i(TAG, "onCreate");
 
-        Intent in = new Intent(this, ChatClient.class);
-        in.putExtra("msg", "dummy");
-        startActivity(in);
+        try {
+            Intent in = new Intent(this, ChatClient.class);
+            in.putExtra("msg", "dummy");
+            startActivity(in);
+        } catch (Exception e) {
+
+        }
 
     }
 

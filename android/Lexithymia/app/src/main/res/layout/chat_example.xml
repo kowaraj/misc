@@ -81,7 +81,8 @@
         <RelativeLayout
             android:id="@+id/lo_nonplutchik"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/lo_modifiers"
@@ -106,7 +107,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#FFF"
-                        android:text="PHYSICAL"
+                        android:text="PHYSICAL INTERNAL"
                         android:textAlignment="center"
                         android:textColor="#aaf"
                         android:textSize="8sp" />
@@ -163,38 +164,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#FFF"
-                        android:text="PSYCHO"
+                        android:text="PHYSICAL EXTERNAL"
                         android:textAlignment="center"
                         android:textColor="#aaf"
                         android:textSize="8sp" />
-
-                    <ToggleButton
-                        android:id="@+id/tbe4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/my_togglebutton"
-                        android:contentDescription="EXTRA.Worry"
-                        android:hint="in your head"
-                        android:minHeight="20dp"
-                        android:text="ToggleButton"
-                        android:textOff="Worry"
-                        android:textOn="Worried"
-                        android:textSize="12sp" />
-
-                    <ToggleButton
-                        android:id="@+id/tbe5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/my_togglebutton"
-                        android:contentDescription="EXTRA.Anxiety"
-                        android:hint="in your body"
-                        android:minHeight="20dp"
-                        android:text="ToggleButton"
-                        android:textOff="Anxiety"
-                        android:textOn="Anxious"
-                        android:textSize="12sp" />
 
                     <ToggleButton
                         android:id="@+id/tbe6"
@@ -269,6 +242,20 @@
                         android:textSize="12sp" />
 
                     <ToggleButton
+                        android:id="@+id/tbe4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:background="@drawable/my_togglebutton"
+                        android:contentDescription="EXTRA.Thirsty"
+                        android:hint="in your head"
+                        android:minHeight="20dp"
+                        android:text="ToggleButton"
+                        android:textOff="Thirsty"
+                        android:textOn="Thirsty"
+                        android:textSize="12sp" />
+
+                    <ToggleButton
                         android:id="@+id/tbe9"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -286,7 +273,7 @@
             <LinearLayout
                 android:id="@+id/lo_ekman_facs"
                 android:layout_width="95dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top|right"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="0dp"
@@ -393,15 +380,6 @@
                     android:textOff="Scornful"
                     android:textOn="Contempt" />
 
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFF"
-                    android:text="Find this in others"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -557,12 +535,22 @@
                     android:textOn="In pain"
                     android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFF"
+                    android:text="EXTERNAL"
+                    android:textAlignment="center"
+                    android:textColor="#aaf"
+                    android:textSize="8sp" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lo_antiperma"
                 android:layout_width="70dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top|left|center_horizontal"
                 android:layout_toEndOf="@+id/lo_perma"
                 android:gravity="top"
@@ -652,7 +640,7 @@
             <LinearLayout
                 android:id="@+id/lo_perma"
                 android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top|left|center_horizontal"
                 android:orientation="vertical"
                 android:visibility="visible"
@@ -748,14 +736,14 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/l1"
-            android:layout_marginTop="385dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:visibility="gone">
 
             <ListView
                 android:id="@+id/messageList"
                 android:layout_width="365dp"
-                android:layout_height="150dp" />
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <RelativeLayout

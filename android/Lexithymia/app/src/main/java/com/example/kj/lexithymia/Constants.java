@@ -62,12 +62,12 @@ public class Constants {
         public static final String Sick = "sick, sick";
         public static final String Tired = "tired, tired";
         // phychiatry
-        public static final String Worry = "worry, worried";
-        public static final String Anxiety = "anxiety, anxious";
+        public static final String Irritated = "irritation, irritated";
         public static final String Stress = "stress, stressed out";
         // need for basic stuff
         public static final String Sleepy = "sleepy, sleepy";
         public static final String Hungry = "hungry, hungry";
+        public static final String Thirsty = "thirsty, thirsty";
         public static final String Horny = "horny, horny";
     }
 

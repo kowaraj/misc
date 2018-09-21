@@ -106,16 +106,21 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
         messageList = findViewById(R.id.messageList);
 
-        sa = new StorageAccess(mContext);
-        String json_str = sa.loadData();
-        if ((json_str == null) || (json_str.length()==0)) {
-            AssetsAccess aa = new AssetsAccess(mContext);
-            json_str = aa.get();
-            data = new Data(json_str);
-            sa.storeData(json_str);
-        } else {
-            data = new Data(json_str);
+        try {
+            sa = new StorageAccess(mContext);
+            String json_str = sa.loadData();
+            if ((json_str == null) || (json_str.length() == 0)) {
+                AssetsAccess aa = new AssetsAccess(mContext);
+                json_str = aa.get();
+                data = new Data(json_str);
+                sa.storeData(json_str);
+            } else {
+                data = new Data(json_str);
+            }
+        } catch (Exception e) {
+            data = new Data();
         }
+
         mAdapter = new MyAdapter(this, data.get());
 
         messageList.removeAllViewsInLayout();
@@ -167,21 +172,22 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
         toggleButtonIDs.add(R.id.tbe2);
         toggleButtonIDs.add(R.id.tbe3);
         toggleButtonIDs.add(R.id.tbe4);
-        toggleButtonIDs.add(R.id.tbe5);
         toggleButtonIDs.add(R.id.tbe6);
         toggleButtonIDs.add(R.id.tbe7);
         toggleButtonIDs.add(R.id.tbe8);
         toggleButtonIDs.add(R.id.tbe9);
+        toggleButtonIDs.add(R.id.tbe10);
 
         for (Integer tbid: toggleButtonIDs) {
             ((ToggleButton) findViewById(tbid)).setOnClickListener(this);
         }
 
-
-        RelativeLayout lo_nonplutchik = (RelativeLayout) findViewById(R.id.lo_nonplutchik);
-        RelativeLayout lo_plutchik = (RelativeLayout) findViewById(R.id.lo_plutchik);
-        lo_nonplutchik.setVisibility(View.GONE);
-        lo_plutchik.setVisibility(View.VISIBLE);
+        switchMode("Plutchik");
+//
+//        RelativeLayout lo_nonplutchik = (RelativeLayout) findViewById(R.id.lo_nonplutchik);
+//        RelativeLayout lo_plutchik = (RelativeLayout) findViewById(R.id.lo_plutchik);
+//        lo_nonplutchik.setVisibility(View.GONE);
+//        lo_plutchik.setVisibility(View.VISIBLE);
 
         ImageView image  = (ImageView) findViewById(R.id.plutchik);
         image.setOnTouchListener(this);
@@ -349,18 +355,25 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
 
         RelativeLayout lo_nonp = findViewById(R.id.lo_nonplutchik);
         RelativeLayout lo_p = findViewById(R.id.lo_plutchik);
-
+        LinearLayout lo_emolist = findViewById(R.id.lo_emolist);
 
         if (mode.toString().equals("Seligman")) {
             lo_nonp.setVisibility(View.VISIBLE);
             lo_p.setVisibility(View.GONE);
-        } else if (mode.toString().equals("Ekman")) {
+            lo_emolist.setVisibility(View.GONE);
+        }
+        else if (mode.toString().equals("Ekman")) {
 
-        } else if (mode.toString().equals("Plutchik")) {
+        }
+        else if (mode.toString().equals("Plutchik")) {
             lo_nonp.setVisibility(View.GONE);
             lo_p.setVisibility(View.VISIBLE);
-        } else if (mode.toString().equals("You")) {
-
+            lo_emolist.setVisibility(View.GONE);
+        }
+        else if (mode.toString().equals("You")) {
+            lo_nonp.setVisibility(View.GONE);
+            lo_p.setVisibility(View.GONE);
+            lo_emolist.setVisibility(View.VISIBLE);
         }
         else {
 
