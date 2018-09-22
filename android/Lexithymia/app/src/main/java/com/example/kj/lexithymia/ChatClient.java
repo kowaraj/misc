@@ -330,6 +330,13 @@ public class ChatClient extends AppCompatActivity implements View.OnClickListene
                     f = null;
                     messageText.setText("");
                 }
+
+                // clean-up
+                r.cleanUp();
+
+                String listOfEmos = r.getEmosAsString();
+                messageText.setText(listOfEmos);
+
                 break;
 
             default:

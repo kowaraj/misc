@@ -200,4 +200,14 @@ public class Reducer {
         }
     }
 
+    // emotions chosen and added (after 'Send' button clicked)
+    public void cleanUp()
+    {
+        unpickEmo1();
+        unpickEmo2();
+        emos.clear();
+        ds.clear();
+
+    }
+
 }
